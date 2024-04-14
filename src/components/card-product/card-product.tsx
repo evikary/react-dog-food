@@ -1,5 +1,12 @@
 import { FavoriteBorder } from '@mui/icons-material';
-import { Box, Button, CardMedia, Grid, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CardMedia,
+	Grid,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import { ProductType } from '../../types/types-data';
 
 function CardProduct({ name, images, price }: ProductType) {
@@ -13,9 +20,9 @@ function CardProduct({ name, images, price }: ProductType) {
 			sx={{
 				position: 'relative',
 			}}>
-			<div style={{ position: 'absolute', top: 0, right: '10px' }}>
+			<IconButton sx={{ position: 'absolute', top: 0, right: '10px' }}>
 				<FavoriteBorder sx={{ color: ' rgb(26, 26, 26)' }} />
-			</div>
+			</IconButton>
 			<CardMedia
 				component='img'
 				image={images}
