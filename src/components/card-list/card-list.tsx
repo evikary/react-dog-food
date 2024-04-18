@@ -4,13 +4,13 @@ import { ProductType } from '../../types/types-data';
 import usePagination from '../../hooks/usePagination';
 import { ChangeEvent } from 'react';
 
-interface ElemsProps {
+interface CardListProps {
 	cards: ProductType[];
 }
 
 const PER_PAGE = 8;
 
-function CardList({ cards }: ElemsProps) {
+function CardList({ cards }: CardListProps) {
 	const { currentPage, getCurrentData, setPagePaginated, countPages } =
 		usePagination<ProductType>(cards, PER_PAGE);
 

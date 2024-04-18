@@ -1,15 +1,10 @@
 import { FavoriteBorder } from '@mui/icons-material';
-import {
-	Box,
-	Button,
-	CardMedia,
-	Grid,
-	IconButton,
-	Typography,
-} from '@mui/material';
+import { Box, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import { ProductType } from '../../types/types-data';
+import InBasketBtn from './in-basket-button/in-basket-button';
+import { Link } from 'react-router-dom';
 
-function CardProduct({ name, images, price }: ProductType) {
+function CardProduct({ name, images, price, id }: ProductType) {
 	return (
 		<Grid
 			item
@@ -23,12 +18,14 @@ function CardProduct({ name, images, price }: ProductType) {
 			<IconButton sx={{ position: 'absolute', top: 0, right: '10px' }}>
 				<FavoriteBorder sx={{ color: ' rgb(26, 26, 26)' }} />
 			</IconButton>
-			<CardMedia
-				component='img'
-				image={images}
-				alt={name}
-				sx={{ height: '187px', mb: '30px', objectFit: 'contain' }}
-			/>
+			<Link to={`/products/${id}`}>
+				<CardMedia
+					component='img'
+					image={images}
+					alt={name}
+					sx={{ height: '187px', mb: '30px', objectFit: 'contain' }}
+				/>
+			</Link>
 			<Box
 				sx={{
 					display: 'flex',
@@ -38,8 +35,13 @@ function CardProduct({ name, images, price }: ProductType) {
 				}}>
 				<Typography
 					component='span'
-					sx={{ fontSize: '20px', fontWeight: '800', mb: '6px' }}>
-					{price}p
+					sx={{
+						fontSize: '20px',
+						fontWeight: '800',
+						mb: '6px',
+						fontFamily: 'Nunito',
+					}}>
+					{price} ₽
 				</Typography>
 				<Typography
 					component='span'
@@ -52,20 +54,7 @@ function CardProduct({ name, images, price }: ProductType) {
 					sx={{ fontSize: '16px', fontWeight: '600' }}>
 					{name}
 				</Typography>
-				<Button
-					variant='contained'
-					sx={{
-						borderRadius: '55px',
-						background: 'rgb(255, 228, 77)',
-						color: 'rgb(26, 26, 26)',
-						fontWeight: '700',
-						width: '121px',
-						height: '40px',
-						mt: 'auto',
-						boxShadow: 'none',
-					}}>
-					В корзину
-				</Button>
+				<InBasketBtn />
 			</Box>
 		</Grid>
 	);

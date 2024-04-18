@@ -1,3 +1,8 @@
+export type AllProducts = {
+	products: ProductType[];
+	length: number;
+};
+
 export type ProductType = {
 	updatedAt?: string;
 	wight?: string;
