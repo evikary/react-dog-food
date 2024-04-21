@@ -1,10 +1,37 @@
-import { FavoriteBorder } from '@mui/icons-material';
+import { Favorite } from '@mui/icons-material';
 import { Box, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import { ProductType } from '../../types/types-data';
 import InBasketBtn from './in-basket-button/in-basket-button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { isLiked } from '../../utils/products';
+import { UserContext } from '../../context/user-context';
+import { useContext } from 'react';
+import {
+	ProductsContext,
+	ProductsContextInterface,
+} from '../../context/product-context';
+import IcoBin from '../../icons/ico-bin';
 
-function CardProduct({ name, images, price, id }: ProductType) {
+type CardProductProps = {
+	product: ProductType;
+};
+
+function CardProduct({ product }: CardProductProps) {
+	const location = useLocation();
+
+	const { onProductLike } = useContext(
+		ProductsContext
+	) as ProductsContextInterface;
+
+	function handleLikeProduct() {
+		if (product.likes) {
+			onProductLike(product);
+		}
+	}
+
+	const currentUser = useContext(UserContext);
+	const like = isLiked(product.likes, currentUser?.id);
+
 	return (
 		<Grid
 			item
@@ -15,14 +42,22 @@ function CardProduct({ name, images, price, id }: ProductType) {
 			sx={{
 				position: 'relative',
 			}}>
-			<IconButton sx={{ position: 'absolute', top: 0, right: '10px' }}>
-				<FavoriteBorder sx={{ color: ' rgb(26, 26, 26)' }} />
+			<IconButton
+				sx={{ position: 'absolute', top: 0, right: '10px' }}
+				onClick={() => handleLikeProduct()}>
+				{location.pathname === '/products' ? (
+					<Favorite
+						sx={{ color: ' rgb(26, 26, 26)', fill: like ? 'red' : '' }}
+					/>
+				) : (
+					<IcoBin />
+				)}
 			</IconButton>
-			<Link to={`/products/${id}`}>
+			<Link to={`/products/${product.id}`} state={{ isBack: true }}>
 				<CardMedia
 					component='img'
-					image={images}
-					alt={name}
+					image={product.images}
+					alt={product.name}
 					sx={{ height: '187px', mb: '30px', objectFit: 'contain' }}
 				/>
 			</Link>
@@ -39,9 +74,8 @@ function CardProduct({ name, images, price, id }: ProductType) {
 						fontSize: '20px',
 						fontWeight: '800',
 						mb: '6px',
-						fontFamily: 'Nunito',
 					}}>
-					{price} ₽
+					{product.price} ₽
 				</Typography>
 				<Typography
 					component='span'
@@ -52,7 +86,7 @@ function CardProduct({ name, images, price, id }: ProductType) {
 				<Typography
 					component='span'
 					sx={{ fontSize: '16px', fontWeight: '600' }}>
-					{name}
+					{product.name}
 				</Typography>
 				<InBasketBtn />
 			</Box>

@@ -19,7 +19,7 @@ function HomePage() {
 					<Typography
 						component='h1'
 						variant='h3'
-						sx={{ fontFamily: 'Nunito', fontWeight: '900', mb: '20px' }}>
+						sx={{ fontWeight: '900', mb: '20px' }}>
 						Крафтовые <br />
 						лакомства для <br />
 						собак

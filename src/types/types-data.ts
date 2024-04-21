@@ -87,3 +87,12 @@ export type ReviewsType = {
 	id: string;
 	product: ProductType;
 };
+
+export type LikeChangeType = {
+	message: string;
+	product: {
+		id: string;
+		userId: string;
+		productId: string;
+	};
+};

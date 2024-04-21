@@ -1,20 +1,22 @@
 import { Box, Button, Container, Typography } from '@mui/material';
-import CardList from '../../components/card-list/card-list';
-import SortProduct from '../../components/sort/sort';
 import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
+import CardList from '../../components/card-list/card-list';
 import { useContext } from 'react';
 import {
 	ProductsContext,
 	ProductsContextInterface,
 } from '../../context/product-context';
+import { favoritesProducts } from '../../utils/products';
+import { UserContext } from '../../context/user-context';
 
-function CatalogProductsPage() {
+function FavoritesPage() {
 	const { products } = useContext(ProductsContext) as ProductsContextInterface;
+	const currentUser = useContext(UserContext);
 	const navigate = useNavigate();
 
 	return (
-		<Container disableGutters component='main' sx={{ py: 3, px: 3 }}>
+		<Container component='main'>
 			<Button
 				variant='text'
 				sx={{ padding: '6px 0' }}
@@ -28,19 +30,21 @@ function CatalogProductsPage() {
 						fontWeight: '400',
 						textTransform: 'capitalize',
 					}}>
-					Главная
+					Назад
 				</Typography>
 			</Button>
 			<Typography
 				component='h2'
 				sx={{ fontSize: '28px', fontWeight: '800', mt: '4px' }}>
-				Каталог
+				Избранное
 			</Typography>
-			<SortProduct />
 			<Box sx={{ height: '40px' }} />
-			<CardList products={products} />
+			{currentUser && (
+				<CardList products={favoritesProducts(products, currentUser.id)} />
+			)}
+			<Box sx={{ height: '40px' }} />
 		</Container>
 	);
 }
 
-export default CatalogProductsPage;
+export default FavoritesPage;

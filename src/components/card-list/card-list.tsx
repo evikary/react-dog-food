@@ -3,23 +3,20 @@ import CardProduct from '../card-product/card-product';
 import { ProductType } from '../../types/types-data';
 import usePagination from '../../hooks/usePagination';
 import { ChangeEvent } from 'react';
-
-interface CardListProps {
-	cards: ProductType[];
-}
+import EmptyList from '../empty-list/empty-list';
 
 const PER_PAGE = 8;
 
-function CardList({ cards }: CardListProps) {
-	const { currentPage, getCurrentData, setPagePaginated, countPages } =
-		usePagination<ProductType>(cards, PER_PAGE);
+interface CardListProps {
+	products: ProductType[];
+}
 
-	if (!cards.length) {
-		return (
-			<Typography component='h2' variant='h3' color='red' align='center'>
-				Ooops! Card list is empty.
-			</Typography>
-		);
+function CardList({ products }: CardListProps) {
+	const { currentPage, getCurrentData, setPagePaginated, countPages } =
+		usePagination<ProductType>(products, PER_PAGE);
+
+	if (!products.length) {
+		return <EmptyList />;
 	}
 
 	function handlePageChange(event: ChangeEvent<unknown>, page: number) {
@@ -30,7 +27,7 @@ function CardList({ cards }: CardListProps) {
 		<>
 			<Grid container rowSpacing={{ xs: 5 }} columnSpacing={{ xs: 1, sm: 2 }}>
 				{getCurrentData().map((elem) => (
-					<CardProduct key={elem.id} {...elem} />
+					<CardProduct key={elem.id} product={elem} />
 				))}
 			</Grid>
 			<Stack spacing={2} alignItems='center' sx={{ mt: '30px' }}>

@@ -1,8 +1,11 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoPhone from '../../icons/ico-phone';
 import IcoMail from '../../icons/ico-mail';
+import { useContext } from 'react';
+import { UserContext } from '../../context/user-context';
 
 function ProfilePage() {
+	const currentUser = useContext(UserContext);
 	return (
 		<Container component='main' sx={{ height: 'calc(100vh - 192px - 96px)' }}>
 			<Box sx={{ width: '617px', pt: '20px', margin: 'auto' }}>
@@ -11,14 +14,14 @@ function ProfilePage() {
 				</Typography>
 				<Stack>
 					<Typography sx={{ fontSize: '20px', fontWeight: '800' }}>
-						Александр Суворов
+						{currentUser?.name}
 					</Typography>
 					<Box sx={{ display: 'flex' }}>
 						<IcoPhone />
 						<Typography
 							component='span'
 							sx={{ fontSize: '12px', fontWeight: '400' }}>
-							+7 (977) 980-12-09
+							{currentUser?.phone}
 						</Typography>
 					</Box>
 					<Box sx={{ display: 'flex' }}>
@@ -26,7 +29,7 @@ function ProfilePage() {
 						<Typography
 							component='span'
 							sx={{ fontSize: '12px', fontWeight: '400' }}>
-							alexander@mail.com
+							{currentUser?.email}
 						</Typography>
 					</Box>
 					<Button

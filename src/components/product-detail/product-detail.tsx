@@ -7,24 +7,35 @@ import {
 	Typography,
 } from '@mui/material';
 import InBasketBtn from '../card-product/in-basket-button/in-basket-button';
-import { FavoriteBorder } from '@mui/icons-material';
+import { Favorite } from '@mui/icons-material';
 import IcoTruck from '../../icons/ico-truck';
 import IcoQuality from '../../icons/ico-quality';
 import { ProductType } from '../../types/types-data';
+import { isLiked } from '../../utils/products';
+import { useContext } from 'react';
+import { UserContext } from '../../context/user-context';
 
-function ProductDetail({ name, description, price, images }: ProductType) {
+interface ProductDetailProps {
+	onProductLike: (productData: ProductType) => void;
+	product: ProductType;
+}
+
+function ProductDetail({ product, onProductLike }: ProductDetailProps) {
+	const currentUser = useContext(UserContext);
+	const like = isLiked(product.likes, currentUser?.id);
+
 	return (
 		<>
 			<Box sx={{ mb: '20px' }}>
 				<Typography component='h2' variant='h5' sx={{ fontWeight: '800' }}>
-					{name}
+					{product.name}
 				</Typography>
 			</Box>
 			<Box sx={{ display: 'flex', columnGap: '160px' }}>
 				<CardMedia
 					component='img'
-					image={images}
-					alt={name}
+					image={product.images}
+					alt={product.name}
 					sx={{ height: '488px', width: '488px', objectFit: 'contain' }}
 				/>
 				<Stack>
@@ -33,7 +44,6 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 						sx={{
 							fontSize: '14px',
 							fontWeight: '400',
-							fontFamily: 'Nunito',
 							textDecoration: 'line-through',
 						}}>
 						550 ₽
@@ -43,9 +53,8 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 						sx={{
 							fontSize: '28px',
 							fontWeight: '800',
-							fontFamily: 'Nunito',
 						}}>
-						{price}
+						{product.price}
 					</Typography>
 					<Box display='flex' gap='16px' sx={{ mt: '24px' }}>
 						<Box
@@ -96,8 +105,9 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 							justifyContent: 'flex-start',
 							mt: '24px',
 							color: 'rgb(123, 142, 152)',
-						}}>
-						<FavoriteBorder />
+						}}
+						onClick={() => onProductLike(product)}>
+						<Favorite sx={{ fill: like ? 'red' : '' }} />
 						<Typography component='span'>В избранное</Typography>
 					</Button>
 					<Paper
@@ -121,7 +131,6 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 									<Typography
 										component='span'
 										sx={{
-											fontFamily: 'Nunito',
 											fontSize: '14px',
 											fontWeight: '700',
 										}}>
@@ -135,7 +144,6 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 									<Typography
 										component='span'
 										sx={{
-											fontFamily: 'Nunito',
 											fontSize: '14px',
 											fontWeight: '700',
 										}}>
@@ -180,7 +188,7 @@ function ProductDetail({ name, description, price, images }: ProductType) {
 				<Typography
 					component='p'
 					sx={{ fontSize: '16px', fontWeight: '400', mb: '20px' }}>
-					{description}
+					{product.description}
 				</Typography>
 			</Box>
 		</>
