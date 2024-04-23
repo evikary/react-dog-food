@@ -1,11 +1,12 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoPhone from '../../icons/ico-phone';
 import IcoMail from '../../icons/ico-mail';
-import { useContext } from 'react';
-import { UserContext } from '../../context/user-context';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../storage/selectors/selector';
 
 function ProfilePage() {
-	const currentUser = useContext(UserContext);
+	const currentUser = useSelector(selectUser);
+
 	return (
 		<Container component='main'>
 			<Box sx={{ width: '617px', pt: '20px', margin: 'auto' }}>

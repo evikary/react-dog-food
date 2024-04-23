@@ -20,10 +20,13 @@ import { ProductsContext } from '../context/product-context';
 import FavoritesPage from '../pages/favorites-page/favorite-page';
 import NotFoundPage from '../pages/not-found/not-found';
 import SingleProductPage from '../pages/single-product/single-product';
+import { useDispatch } from 'react-redux';
+import { fetchUserAction } from '../storage/actions/actions-user';
 
 export const App = () => {
 	const [products, setProducts] = useState<ProductType[]>([]);
 	const [currentUser, setCurrentUser] = useState<UserType | null>(null);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		getAllProducts()
@@ -41,6 +44,8 @@ export const App = () => {
 			.catch((error: Error) => {
 				console.log(error);
 			});
+
+		dispatch(fetchUserAction(apiToken));
 	}, []);
 
 	const handleProductLike = async (productData: ProductType) => {
