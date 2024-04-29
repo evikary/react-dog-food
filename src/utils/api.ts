@@ -1,6 +1,8 @@
 import {
 	AllProducts,
 	DataSetUser,
+	GetProduct,
+	GetProducts,
 	GetUser,
 	LikeChangeType,
 	ProductType,
@@ -18,18 +20,18 @@ export const checkResponse = async <T>(res: Response): Promise<T> => {
 	return json;
 };
 
-export const getAllProducts = (): Promise<AllProducts> => {
+export const getAllProducts: GetProducts = (): Promise<ProductType[]> => {
 	return fetch(`${URL}/products`)
 		.then((data) => checkResponse<AllProducts>(data))
 		.then((json) => {
-			return json;
+			return json.products;
 		})
 		.catch((err) => {
 			return Promise.reject(err);
 		});
 };
 
-export const getProductId = (id: string): Promise<ProductType> => {
+export const getProductId: GetProduct = (id: string): Promise<ProductType> => {
 	return fetch(`${URL}/products/${id}`)
 		.then((data) => checkResponse<ProductType>(data))
 		.then((json) => {
@@ -66,7 +68,6 @@ export const setUser: SetUser = (data: DataSetUser): Promise<UserType> => {
 	})
 		.then((data) => checkResponse<UserType>(data))
 		.then((json) => {
-			console.log('setUser', json);
 			return json;
 		})
 		.catch((err: Error) => {
@@ -92,4 +93,10 @@ export const changelike = (
 		});
 };
 
-export const unitApi: UnitApi = [getUser, setUser];
+export const unitApi: UnitApi = {
+	GetUser: getUser,
+	SetUser: setUser,
+	GetProducts: getAllProducts,
+	GetProduct: getProductId,
+	Changelike: changelike,
+};

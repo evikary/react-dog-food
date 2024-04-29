@@ -3,14 +3,11 @@ import CardList from '../../components/card-list/card-list';
 import SortProduct from '../../components/sort/sort';
 import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import {
-	ProductsContext,
-	ProductsContextInterface,
-} from '../../context/product-context';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { productsSelector } from '../../storage/slices/products-slice';
 
 function CatalogProductsPage() {
-	const { products } = useContext(ProductsContext) as ProductsContextInterface;
+	const products = useAppSelector(productsSelector.products);
 	const navigate = useNavigate();
 
 	return (

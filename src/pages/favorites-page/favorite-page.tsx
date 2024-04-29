@@ -5,14 +5,10 @@ import CardList from '../../components/card-list/card-list';
 import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { useContext } from 'react';
-import {
-	ProductsContext,
-	ProductsContextInterface,
-} from '../../context/product-context';
+import { productsSelector } from '../../storage/slices/products-slice';
 
 function FavoritesPage() {
-	const { products } = useContext(ProductsContext) as ProductsContextInterface;
+	const products = useAppSelector(productsSelector.products);
 	const currentUser = useAppSelector(userSelector.user);
 	const navigate = useNavigate();
 

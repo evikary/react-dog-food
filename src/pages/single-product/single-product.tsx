@@ -1,54 +1,38 @@
 import { Button, Container, Typography } from '@mui/material';
 import IcoLeft from '../../icons/ico-left';
 import ProductDetail from '../../components/product-detail/product-detail';
-import { useContext, useEffect, useState } from 'react';
-import { ProductType } from '../../types/types-data';
-import { getProductId } from '../../utils/api';
+import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import {
-	ProductsContext,
-	ProductsContextInterface,
-} from '../../context/product-context';
 import Spinner from '../../components/spinner/spinner';
 import NotFoundPage from '../not-found/not-found';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import {
+	ProductActions,
+	productSelector,
+} from '../../storage/slices/product-slice';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 function SingleProductPage() {
 	const { idProduct } = useParams();
-	const [product, setProduct] = useState<ProductType | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isError, setIsError] = useState<boolean>(false);
-	const { onProductLike } = useContext(
-		ProductsContext
-	) as ProductsContextInterface;
-
-	const handleLikeProduct = async (productData: ProductType) => {
-		const updateProduct = await onProductLike(productData);
-		if (updateProduct) {
-			setProduct(updateProduct);
-		}
-	};
+	const dispatch = useAppDispatch();
+	const product = useAppSelector(productSelector.product);
+	const status = useAppSelector(productSelector.productsRequestStatus);
 
 	useEffect(() => {
-		setIsLoading(true);
-		getProductId(idProduct!)
-			.then((dataProduct: ProductType) => {
-				setProduct(dataProduct);
-			})
-			.catch(() => setIsError(true))
-			.finally(() => setIsLoading(false));
+		dispatch(ProductActions.fetchProduct(idProduct!));
 	}, [idProduct]);
 
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isBack = location.state?.isBack;
 
-	if (isError) {
+	if (status === 'failed') {
 		return <NotFoundPage />;
 	}
 
 	return (
 		<>
-			{isLoading ? (
+			{status !== 'success' ? (
 				<Spinner />
 			) : (
 				<Container component='main'>
@@ -68,12 +52,7 @@ function SingleProductPage() {
 							Назад
 						</Typography>
 					</Button>
-					{product && (
-						<ProductDetail
-							product={product}
-							onProductLike={handleLikeProduct}
-						/>
-					)}
+					{product && <ProductDetail product={product} />}
 				</Container>
 			)}
 		</>

@@ -8,14 +8,10 @@ import { Link } from 'react-router-dom';
 import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { useContext } from 'react';
-import {
-	ProductsContext,
-	ProductsContextInterface,
-} from '../../context/product-context';
+import { productsSelector } from '../../storage/slices/products-slice';
 
 function Header() {
-	const { products } = useContext(ProductsContext) as ProductsContextInterface;
+	const products = useAppSelector(productsSelector.products);
 	const currentUser = useAppSelector(userSelector.user);
 
 	return (

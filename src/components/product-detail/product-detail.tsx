@@ -14,16 +14,23 @@ import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
 
 interface ProductDetailProps {
-	onProductLike: (productData: ProductType) => void;
 	product: ProductType;
 }
 
-function ProductDetail({ product, onProductLike }: ProductDetailProps) {
+function ProductDetail({ product }: ProductDetailProps) {
 	const currentUser = useAppSelector(userSelector.user);
-
 	const like = isLiked(product.likes, currentUser?.id);
+	const dispatch = useAppDispatch();
+
+	function handleLikeProduct() {
+		if (product.likes) {
+			dispatch(fetchChangeLikeProduct(product));
+		}
+	}
 
 	return (
 		<>
@@ -107,7 +114,7 @@ function ProductDetail({ product, onProductLike }: ProductDetailProps) {
 							mt: '24px',
 							color: 'rgb(123, 142, 152)',
 						}}
-						onClick={() => onProductLike(product)}>
+						onClick={() => handleLikeProduct()}>
 						<Favorite sx={{ fill: like ? 'red' : '' }} />
 						<Typography component='span'>В избранное</Typography>
 					</Button>
