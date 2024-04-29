@@ -4,13 +4,14 @@ import { ProductType } from '../../types/types-data';
 import InBasketBtn from './in-basket-button/in-basket-button';
 import { Link, useLocation } from 'react-router-dom';
 import { isLiked } from '../../utils/products';
-import { UserContext } from '../../context/user-context';
 import { useContext } from 'react';
 import {
 	ProductsContext,
 	ProductsContextInterface,
 } from '../../context/product-context';
 import IcoBin from '../../icons/ico-bin';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
 
 type CardProductProps = {
 	product: ProductType;
@@ -18,6 +19,7 @@ type CardProductProps = {
 
 function CardProduct({ product }: CardProductProps) {
 	const location = useLocation();
+	const currentUser = useAppSelector(userSelector.user);
 
 	const { onProductLike } = useContext(
 		ProductsContext
@@ -29,7 +31,6 @@ function CardProduct({ product }: CardProductProps) {
 		}
 	}
 
-	const currentUser = useContext(UserContext);
 	const like = isLiked(product.likes, currentUser?.id);
 
 	return (

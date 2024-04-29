@@ -96,3 +96,23 @@ export type LikeChangeType = {
 		productId: string;
 	};
 };
+
+export interface FofmProfile {
+	name: string;
+	about: string;
+	phone: string;
+	email: string;
+}
+
+export type UserUpdateDto = Partial<
+	Omit<UserType, 'favoritesPost' | 'id'> & { password: string }
+>;
+
+export type DataSetUser = {
+	token: string;
+	user: UserUpdateDto;
+};
+
+export type GetUser = (token: string) => Promise<UserType>;
+export type SetUser = (data: DataSetUser) => Promise<UserType>;
+export type UnitApi = [GetUser, SetUser];

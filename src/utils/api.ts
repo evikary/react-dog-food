@@ -1,7 +1,11 @@
 import {
 	AllProducts,
+	DataSetUser,
+	GetUser,
 	LikeChangeType,
 	ProductType,
+	SetUser,
+	UnitApi,
 	UserType,
 } from '../types/types-data';
 import { URL } from './constants';
@@ -36,13 +40,33 @@ export const getProductId = (id: string): Promise<ProductType> => {
 		});
 };
 
-export const getUser = (token: string): Promise<UserType> => {
+export const getUser: GetUser = (token: string): Promise<UserType> => {
 	return fetch(`${URL}/users/me`, {
 		method: 'GET',
 		headers: { accept: 'application/json', Authorization: token },
 	})
 		.then((data) => checkResponse<UserType>(data))
 		.then((json) => {
+			return json;
+		})
+		.catch((err: Error) => {
+			return Promise.reject(err);
+		});
+};
+
+export const setUser: SetUser = (data: DataSetUser): Promise<UserType> => {
+	return fetch(`${URL}/users/me`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+			Authorization: data.token,
+		},
+		body: JSON.stringify(data.user),
+	})
+		.then((data) => checkResponse<UserType>(data))
+		.then((json) => {
+			console.log('setUser', json);
 			return json;
 		})
 		.catch((err: Error) => {
@@ -67,3 +91,5 @@ export const changelike = (
 			return Promise.reject(err);
 		});
 };
+
+export const unitApi: UnitApi = [getUser, setUser];

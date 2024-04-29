@@ -3,7 +3,9 @@ import { LikeType, ProductType } from '../types/types-data';
 export const isLiked = (
 	likes: LikeType[] | undefined,
 	idUser: string | undefined
-) => likes?.some((favorite) => favorite.userId === idUser);
+) => {
+	return likes?.some((favorite) => favorite.userId === idUser);
+};
 
 export function favoritesProducts(
 	dataProducts: ProductType[],

@@ -12,8 +12,8 @@ import IcoTruck from '../../icons/ico-truck';
 import IcoQuality from '../../icons/ico-quality';
 import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
-import { useContext } from 'react';
-import { UserContext } from '../../context/user-context';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
 
 interface ProductDetailProps {
 	onProductLike: (productData: ProductType) => void;
@@ -21,7 +21,8 @@ interface ProductDetailProps {
 }
 
 function ProductDetail({ product, onProductLike }: ProductDetailProps) {
-	const currentUser = useContext(UserContext);
+	const currentUser = useAppSelector(userSelector.user);
+
 	const like = isLiked(product.likes, currentUser?.id);
 
 	return (

@@ -2,17 +2,18 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
 import CardList from '../../components/card-list/card-list';
+import { favoritesProducts } from '../../utils/products';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
 import { useContext } from 'react';
 import {
 	ProductsContext,
 	ProductsContextInterface,
 } from '../../context/product-context';
-import { favoritesProducts } from '../../utils/products';
-import { UserContext } from '../../context/user-context';
 
 function FavoritesPage() {
 	const { products } = useContext(ProductsContext) as ProductsContextInterface;
-	const currentUser = useContext(UserContext);
+	const currentUser = useAppSelector(userSelector.user);
 	const navigate = useNavigate();
 
 	return (

@@ -5,17 +5,18 @@ import { Favorite } from '@mui/icons-material';
 import icoDog from '../../images/dog.png';
 import icoBuy from '../../images/buy.png';
 import { Link } from 'react-router-dom';
+import { favoritesProducts } from '../../utils/products';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
 import { useContext } from 'react';
 import {
 	ProductsContext,
 	ProductsContextInterface,
 } from '../../context/product-context';
-import { UserContext } from '../../context/user-context';
-import { favoritesProducts } from '../../utils/products';
 
 function Header() {
 	const { products } = useContext(ProductsContext) as ProductsContextInterface;
-	const currentUser = useContext(UserContext);
+	const currentUser = useAppSelector(userSelector.user);
 
 	return (
 		<AppBar

@@ -1,4 +1,5 @@
 import { UserType } from '../../types/types-data';
+import store from '../store';
 
 export const enum RequestStatus {
 	Idle = 'idle',
@@ -7,13 +8,11 @@ export const enum RequestStatus {
 	Failed = 'failed',
 }
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 export interface UserState {
 	currentUser: UserType | null;
 	userRequest: boolean;
-	// status: RequestStatus;
 	failed: string;
-}
-
-export interface IStore {
-	profile: UserState;
 }
