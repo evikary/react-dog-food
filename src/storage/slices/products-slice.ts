@@ -5,6 +5,7 @@ import { fetchProducts } from '../thunk/products';
 import { fetchChangeLikeProduct } from '../thunk/favorite-product';
 import { isActionPending, isActionRejected } from '../../utils/store-utils';
 import { fetchSearchProducts } from '../thunk/searchProducts';
+import { fetchCreateFeedback } from '../thunk/reviews-product';
 
 interface StateProduct {
 	allProducts: ProductType[];
@@ -38,6 +39,15 @@ export const productsSlice = createSlice({
 						: currentProduct
 				);
 			})
+			.addCase(fetchCreateFeedback.fulfilled, (state, action) => {
+				state.status = RequestStatus.Success;
+				state.allProducts = state.allProducts.map((product) => {
+					if (product.id === action.payload.product.id) {
+						product.reviews?.push(action.payload);
+					}
+					return product;
+				});
+			})
 			.addCase(fetchSearchProducts.fulfilled, (state, action) => {
 				state.status = RequestStatus.Success;
 				state.allProducts = action.payload;
@@ -60,4 +70,5 @@ export const ProductsActions = {
 	...productsSlice.actions,
 	fetchProducts,
 	fetchSearchProducts,
+	fetchCreateFeedback,
 };

@@ -7,7 +7,7 @@ import { ProductsActions } from '../../storage/slices/products-slice';
 import { useNavigate } from 'react-router-dom';
 
 function SearchElements() {
-	const Search = styled('div')(() => ({
+	const Search = styled('form')(() => ({
 		width: '468px',
 		height: '48px',
 		display: 'flex',
@@ -23,13 +23,10 @@ function SearchElements() {
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
-	};
-
-	const onKeyDown = (e: any) => {
-		if (e.key === 'Enter') {
-			dispatch(ProductsActions.fetchSearchProducts(search));
-			navigate('/products');
-		}
+		dispatch(
+			ProductsActions.fetchSearchProducts({ searchTerm: e.target.value })
+		);
+		navigate('/products');
 	};
 
 	return (
@@ -41,7 +38,6 @@ function SearchElements() {
 				fullWidth
 				defaultValue={search}
 				onChange={onChange}
-				onKeyDown={onKeyDown}
 			/>
 			<SearchIcon sx={{ fill: 'rgb(207, 216, 220)' }} />
 		</Search>

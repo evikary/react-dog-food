@@ -5,14 +5,13 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import IcoLeft from '../../icons/ico-left';
-import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { UserActions, userSelector } from '../../storage/slices/user-slice';
 import { ChangeEvent, useState } from 'react';
 import { FofmProfile } from '../../types/types-data';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { apiToken } from '../../utils/constants';
+import ButtonBack from '../../components/button/back-button';
 
 function MyDataPage() {
 	const dispatch = useAppDispatch();
@@ -32,29 +31,13 @@ function MyDataPage() {
 		dispatch(UserActions.fetchEditUser({ token: apiToken, user: form }));
 	};
 
-	const navigate = useNavigate();
 	return (
 		<Container
 			component='main'
 			sx={{
 				height: 'calc(100vh - 192px - 96px)',
 			}}>
-			<Button
-				variant='text'
-				sx={{ padding: '6px 0' }}
-				onClick={() => navigate(-1)}>
-				<IcoLeft />
-				<Typography
-					component='span'
-					sx={{
-						color: 'rgb(123, 142, 152)',
-						fontSize: '14px',
-						fontWeight: '400',
-						textTransform: 'capitalize',
-					}}>
-					Назад
-				</Typography>
-			</Button>
+			<ButtonBack />
 			<Typography sx={{ fontSize: '28px', fontWeight: '800', mb: '20px' }}>
 				Мои данные
 			</Typography>

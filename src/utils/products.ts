@@ -13,3 +13,13 @@ export function favoritesProducts(
 ) {
 	return dataProducts.filter((item) => isLiked(item.likes, idUser));
 }
+
+export const getDate = (data: string) => {
+	const date = new Date(data);
+	const options: Intl.DateTimeFormatOptions = {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	};
+	return date.toLocaleDateString('ru-RU', options);
+};

@@ -1,5 +1,4 @@
 import { Button, Container, Typography } from '@mui/material';
-import IcoLeft from '../../icons/ico-left';
 import ProductDetail from '../../components/product-detail/product-detail';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -11,20 +10,20 @@ import {
 	productSelector,
 } from '../../storage/slices/product-slice';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import IcoLeft from '../../icons/ico-left';
 
 function SingleProductPage() {
 	const { idProduct } = useParams();
 	const dispatch = useAppDispatch();
 	const product = useAppSelector(productSelector.product);
 	const status = useAppSelector(productSelector.productsRequestStatus);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const isBack = location.state?.isBack;
 
 	useEffect(() => {
 		dispatch(ProductActions.fetchProduct(idProduct!));
 	}, [idProduct]);
-
-	const navigate = useNavigate();
-	const location = useLocation();
-	const isBack = location.state?.isBack;
 
 	if (status === 'failed') {
 		return <NotFoundPage />;

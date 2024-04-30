@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	CardMedia,
+	Divider,
 	Paper,
 	Stack,
 	Typography,
@@ -16,6 +17,8 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
+import Feedback from '../feedback/feedback';
+import { Link } from 'react-router-dom';
 
 interface ProductDetailProps {
 	product: ProductType;
@@ -198,6 +201,35 @@ function ProductDetail({ product }: ProductDetailProps) {
 					sx={{ fontSize: '16px', fontWeight: '400', mb: '20px' }}>
 					{product.description}
 				</Typography>
+			</Box>
+			<Box>
+				<Typography component='h2' variant='h6' sx={{ fontWeight: '800' }}>
+					Отзывы
+				</Typography>
+				<Button
+					component={Link}
+					to={`/reviews/leave/${product.id}`}
+					type='button'
+					variant='outlined'
+					sx={{
+						width: '172px',
+						height: '40px',
+						borderRadius: '87px',
+						color: 'rgb(26, 26, 26)',
+						fontSize: '16px',
+						fontWeight: '700',
+						borderColor: 'rgb(207, 216, 220)',
+						mt: '20px',
+						mb: '20px',
+						textTransform: 'unset',
+					}}>
+					Написать отзыв
+				</Button>
+				<Divider sx={{ mb: '20px' }} />
+				{product.reviews &&
+					product.reviews.map((item) => (
+						<Feedback key={item.id} review={item} />
+					))}
 			</Box>
 		</>
 	);

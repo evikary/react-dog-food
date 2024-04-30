@@ -1,11 +1,16 @@
 import {
 	AllProducts,
+	Changelike,
+	CreateFeedback,
+	DataCreateFeedback,
 	DataSetUser,
 	GetProduct,
 	GetProducts,
 	GetUser,
 	LikeChangeType,
 	ProductType,
+	ReviewsType,
+	SearchParam,
 	SetUser,
 	UnitApi,
 	UserType,
@@ -21,9 +26,10 @@ export const checkResponse = async <T>(res: Response): Promise<T> => {
 };
 
 export const getAllProducts: GetProducts = (
-	search?: string
+	search?: SearchParam
 ): Promise<ProductType[]> => {
-	return fetch(`${URL}/products?searchTerm=${search || ''}`)
+	const param = new URLSearchParams(search);
+	return fetch(`${URL}/products?${param}`)
 		.then((data) => checkResponse<AllProducts>(data))
 		.then((json) => {
 			return json.products;
@@ -77,7 +83,7 @@ export const setUser: SetUser = (data: DataSetUser): Promise<UserType> => {
 		});
 };
 
-export const changelike = (
+export const changelike: Changelike = (
 	id: string,
 	token: string,
 	like: boolean | undefined
@@ -95,10 +101,32 @@ export const changelike = (
 		});
 };
 
+export const createFeedback: CreateFeedback = (
+	data: DataCreateFeedback
+): Promise<ReviewsType> => {
+	return fetch(`${URL}/reviews/leave/${data.id}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+			Authorization: data.token,
+		},
+		body: JSON.stringify({ rating: data.rating, text: data.text }),
+	})
+		.then((data) => checkResponse<ReviewsType>(data))
+		.then((json) => {
+			return json;
+		})
+		.catch((err: Error) => {
+			return Promise.reject(err);
+		});
+};
+
 export const unitApi: UnitApi = {
 	getUser: getUser,
 	setUser: setUser,
 	getProducts: getAllProducts,
 	getProduct: getProductId,
 	changelike: changelike,
+	createFeedback: createFeedback,
 };

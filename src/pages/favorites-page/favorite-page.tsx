@@ -1,35 +1,18 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import IcoLeft from '../../icons/ico-left';
-import { useNavigate } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 import CardList from '../../components/card-list/card-list';
 import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
 import { productsSelector } from '../../storage/slices/products-slice';
+import ButtonBack from '../../components/button/back-button';
 
 function FavoritesPage() {
 	const products = useAppSelector(productsSelector.products);
 	const currentUser = useAppSelector(userSelector.user);
-	const navigate = useNavigate();
 
 	return (
 		<Container component='main'>
-			<Button
-				variant='text'
-				sx={{ padding: '6px 0' }}
-				onClick={() => navigate(-1)}>
-				<IcoLeft />
-				<Typography
-					component='span'
-					sx={{
-						color: 'rgb(123, 142, 152)',
-						fontSize: '14px',
-						fontWeight: '400',
-						textTransform: 'capitalize',
-					}}>
-					Назад
-				</Typography>
-			</Button>
+			<ButtonBack />
 			<Typography
 				component='h2'
 				sx={{ fontSize: '28px', fontWeight: '800', mt: '4px' }}>
