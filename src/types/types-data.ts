@@ -115,7 +115,7 @@ export type DataSetUser = {
 
 export type GetUser = (token: string) => Promise<UserType>;
 export type SetUser = (data: DataSetUser) => Promise<UserType>;
-export type GetProducts = () => Promise<ProductType[]>;
+export type GetProducts = (search?: string) => Promise<ProductType[]>;
 export type GetProduct = (id: string) => Promise<ProductType>;
 export type Changelike = (
 	id: string,
@@ -124,9 +124,9 @@ export type Changelike = (
 ) => Promise<LikeChangeType>;
 
 export type UnitApi = {
-	GetUser: GetUser;
-	SetUser: SetUser;
-	GetProducts: GetProducts;
-	GetProduct: GetProduct;
-	Changelike: Changelike;
+	getUser: GetUser;
+	setUser: SetUser;
+	getProducts: GetProducts;
+	getProduct: GetProduct;
+	changelike: Changelike;
 };

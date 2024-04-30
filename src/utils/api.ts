@@ -20,8 +20,10 @@ export const checkResponse = async <T>(res: Response): Promise<T> => {
 	return json;
 };
 
-export const getAllProducts: GetProducts = (): Promise<ProductType[]> => {
-	return fetch(`${URL}/products`)
+export const getAllProducts: GetProducts = (
+	search?: string
+): Promise<ProductType[]> => {
+	return fetch(`${URL}/products?searchTerm=${search || ''}`)
 		.then((data) => checkResponse<AllProducts>(data))
 		.then((json) => {
 			return json.products;
@@ -94,9 +96,9 @@ export const changelike = (
 };
 
 export const unitApi: UnitApi = {
-	GetUser: getUser,
-	SetUser: setUser,
-	GetProducts: getAllProducts,
-	GetProduct: getProductId,
-	Changelike: changelike,
+	getUser: getUser,
+	setUser: setUser,
+	getProducts: getAllProducts,
+	getProduct: getProductId,
+	changelike: changelike,
 };

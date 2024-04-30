@@ -12,7 +12,7 @@ export const fetchChangeLikeProduct = createAppAsyncThunk<
 	async function (product, { dispatch, getState, extra: unitApi }) {
 		const { user } = getState();
 		const liked = user.info ? isLiked(product.likes, user.info.id) : false;
-		await (unitApi as UnitApi).Changelike(product.id, apiToken, liked);
+		await (unitApi as UnitApi).changelike(product.id, apiToken, liked);
 		const updatePost = await dispatch(fetchProduct(product.id)).unwrap();
 		return updatePost;
 	}

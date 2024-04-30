@@ -4,6 +4,7 @@ import { ProductType } from '../../types/types-data';
 import { fetchProducts } from '../thunk/products';
 import { fetchChangeLikeProduct } from '../thunk/favorite-product';
 import { isActionPending, isActionRejected } from '../../utils/store-utils';
+import { fetchSearchProducts } from '../thunk/searchProducts';
 
 interface StateProduct {
 	allProducts: ProductType[];
@@ -37,6 +38,10 @@ export const productsSlice = createSlice({
 						: currentProduct
 				);
 			})
+			.addCase(fetchSearchProducts.fulfilled, (state, action) => {
+				state.status = RequestStatus.Success;
+				state.allProducts = action.payload;
+			})
 			.addMatcher(isActionPending(productsSlice.name), (state) => {
 				state.status = RequestStatus.Loading;
 			})
@@ -54,4 +59,5 @@ export const productsSelector = productsSlice.selectors;
 export const ProductsActions = {
 	...productsSlice.actions,
 	fetchProducts,
+	fetchSearchProducts,
 };

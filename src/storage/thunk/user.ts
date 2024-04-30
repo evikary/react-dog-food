@@ -4,7 +4,7 @@ import { createAppAsyncThunk } from '../../hooks/useAppCreateAsyncThunk';
 export const fetchUser = createAppAsyncThunk<UserType, string>(
 	'user/fetchUser',
 	async (token, { extra: unitApi }) => {
-		const data = await unitApi.GetUser(token);
+		const data = await unitApi.getUser(token);
 		return data;
 	}
 );
@@ -12,7 +12,7 @@ export const fetchUser = createAppAsyncThunk<UserType, string>(
 export const fetchEditUser = createAppAsyncThunk<UserType, DataSetUser>(
 	'user/fetchEditUser',
 	async (dataUser, { extra: unitApi }) => {
-		const data = await unitApi.SetUser(dataUser);
+		const data = await unitApi.setUser(dataUser);
 		return data;
 	}
 );

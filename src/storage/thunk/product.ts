@@ -4,7 +4,7 @@ import { ProductType, UnitApi } from '../../types/types-data';
 export const fetchProduct = createAppAsyncThunk<ProductType, string>(
 	'product/fetchProduct',
 	async (id, { extra: unitApi }) => {
-		const data = await (unitApi as UnitApi).GetProduct(id);
+		const data = await (unitApi as UnitApi).getProduct(id);
 		return data;
 	}
 );
