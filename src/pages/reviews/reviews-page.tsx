@@ -4,6 +4,7 @@ import {
 	Container,
 	Divider,
 	FormControl,
+	Rating,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -24,7 +25,7 @@ function ReviewsPage() {
 	const { idProduct } = useParams();
 	const dispatch = useAppDispatch();
 	const product = useAppSelector(productSelector.product);
-	const [form, setForm] = useState<FormFeedback>({ feed: '' });
+	const [form, setForm] = useState<FormFeedback>({ feed: '', rating: 1 });
 	const navigate = useNavigate();
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,7 @@ function ReviewsPage() {
 			ProductsActions.fetchCreateFeedback({
 				token: apiToken,
 				id: idProduct!,
-				rating: 1,
+				rating: form.rating,
 				text: form.feed,
 			})
 		).then(() => navigate(-1));
@@ -59,6 +60,16 @@ function ReviewsPage() {
 				)}
 				<Divider />
 				<FormControl component='form' sx={{ mt: '40px' }}>
+					<Box display='flex' width='740px' mb='40px' columnGap='12%'>
+						<Typography>Общая оценка</Typography>
+						<Rating
+							name='simple-controlled'
+							value={form.rating}
+							onChange={(event, newValue) => {
+								setForm({ ...form, rating: newValue || form.rating });
+							}}
+						/>
+					</Box>
 					<Box display='flex' width='740px' justifyContent='space-between'>
 						<Typography>Комментарии</Typography>
 						<TextField

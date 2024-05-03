@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Rating, Stack, Typography } from '@mui/material';
 import { ReviewsType } from '../../types/types-data';
 import { getDate } from '../../utils/products';
 
@@ -17,6 +17,12 @@ function Feedback({ review }: FeedbackProps) {
 					{getDate(review.createdAt)}
 				</Typography>
 			</Box>
+			<Rating
+				name='read-only'
+				value={review.rating}
+				readOnly
+				sx={{ mb: '8px' }}
+			/>
 			<Typography>{review.text}</Typography>
 		</Stack>
 	);

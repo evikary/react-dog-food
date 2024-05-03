@@ -106,6 +106,7 @@ export interface FofmProfile {
 
 export interface FormFeedback {
 	feed: string;
+	rating: number;
 }
 
 export type UserUpdateDto = Partial<
