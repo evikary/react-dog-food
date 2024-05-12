@@ -8,10 +8,10 @@ type SignUpResponse = {
 	accessToken: Token['accessToken'];
 };
 
-// type SignInResponse = {
-// 	user: Pick<UserType, 'id' | 'email'>;
-// 	accessToken: Token['accessToken'];
-// };
+type SignInResponse = {
+	user: Pick<UserType, 'id' | 'email'>;
+	accessToken: Token['accessToken'];
+};
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
@@ -24,14 +24,14 @@ export const authApi = createApi({
 				body: signUpFormValues,
 			}),
 		}),
-		// signIn: builder.mutation<SignInResponse, unknown>({
-		// 	query: (signInFormValues) => ({
-		// 		url: '/auth/login',
-		// 		method: 'POST',
-		// 		body: signInFormValues,
-		// 	}),
-		// }),
+		signIn: builder.mutation<SignInResponse, unknown>({
+			query: (signInFormValues) => ({
+				url: '/auth/login',
+				method: 'POST',
+				body: signInFormValues,
+			}),
+		}),
 	}),
 });
 
-export const { useSignUpMutation } = authApi;
+export const { useSignUpMutation, useSignInMutation } = authApi;

@@ -5,8 +5,9 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
 import { productsSelector } from '../../storage/slices/products-slice';
 import ButtonBack from '../../components/button/back-button';
+import { withProtection } from '../../HOCs/with-protection';
 
-function FavoritesPage() {
+const FavoritesPage = withProtection(() => {
 	const products = useAppSelector(productsSelector.products);
 	const currentUser = useAppSelector(userSelector.user);
 
@@ -25,6 +26,6 @@ function FavoritesPage() {
 			<Box sx={{ height: '40px' }} />
 		</Container>
 	);
-}
+});
 
 export default FavoritesPage;

@@ -5,8 +5,9 @@ import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { productsSelector } from '../../storage/slices/products-slice';
+import { withProtection } from '../../HOCs/with-protection';
 
-function CatalogProductsPage() {
+const CatalogProductsPage = withProtection(() => {
 	const products = useAppSelector(productsSelector.products);
 	const navigate = useNavigate();
 
@@ -38,6 +39,6 @@ function CatalogProductsPage() {
 			<CardList products={products} />
 		</Container>
 	);
-}
+});
 
 export default CatalogProductsPage;

@@ -1,52 +1,59 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { SignUpFormValues } from './helpers/types';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { signUpFormSchema } from './helpers/validator';
+import {
+	Box,
+	Button,
+	Container,
+	TextField,
+	Typography,
+	Link as LinkMiu,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { toast } from 'react-toastify';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSignUpMutation } from '../../../storage/api/authApi';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSignInMutation } from '../../../storage/api/authApi';
+import { toast } from 'react-toastify';
+import { getMessageFromError } from '../../../utils/error-utils';
 import { UserActions } from '../../../storage/slices/user-slice';
 import { authAction } from '../../../storage/slices/auth-slice';
-import { getMessageFromError } from '../../../utils/error-utils';
+import { SignInFormValues } from './helpers/types';
+import { signInFormSchema } from './helpers/validator';
 
-function SignUpForm() {
+function SignInForm() {
+	const location = useLocation();
+	console.log(location);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const [signUpRequestFn] = useSignUpMutation();
+	const [signInRequestFn] = useSignInMutation();
 
-	// инициализируем react-hook-form
 	const {
 		control,
 		handleSubmit,
 		formState: { errors, isValid, isSubmitting, isSubmitted },
-	} = useForm<SignUpFormValues>({
+	} = useForm<SignInFormValues>({
 		defaultValues: {
 			email: '',
 			password: '',
 		},
-		resolver: yupResolver(signUpFormSchema),
+		resolver: yupResolver(signInFormSchema),
 	});
 
-	const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
+	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
+		console.log('values', values);
 		try {
-			const response = await signUpRequestFn(values).unwrap();
+			const response = await signInRequestFn(values).unwrap();
+			console.log('response', response);
 			dispatch(UserActions.setUser(response.user));
 			dispatch(
 				authAction.setAccessToken({ accessToken: response.accessToken })
 			);
-
-			toast.success('Вы успешно зарегистрированы!');
-			navigate('/signin');
+			toast.success('Вы зашли в систему!');
+			navigate(location.state?.from || '/products');
 		} catch (error) {
+			console.log(error);
 			toast.error(
-				getMessageFromError(
-					error,
-					'Не известная ошибка при регистрации пользователя'
-				)
+				getMessageFromError(error, 'Не известная ошибка при попытки войти')
 			);
 		}
 	};
@@ -58,11 +65,15 @@ function SignUpForm() {
 					marginTop: 8,
 					display: 'flex',
 					flexDirection: 'column',
+					alignItems: 'center',
 				}}>
-				<Typography component='h1' fontSize='28px' fontWeight='800'>
-					Регистрация
+				<Typography component='h1' fontSize='28px' fontWeight='800' mr='auto'>
+					Вход
 				</Typography>
 				<Box
+					display='flex'
+					flexDirection='column'
+					alignItems='center'
 					component='form'
 					onSubmit={handleSubmit(submitHandler)}
 					noValidate
@@ -100,16 +111,17 @@ function SignUpForm() {
 							/>
 						)}
 					/>
-
-					<Typography
-						mt='24px'
-						fontSize='12px'
-						sx={{ color: 'rgb(123, 142, 152)' }}>
-						Регистрируясь на сайте, вы соглашаетесь с нашими
-						<br /> Правилами и Политикой конфиденциальности и<br /> соглашаетесь
-						на информационную рассылку.
-					</Typography>
-
+					<LinkMiu
+						underline='hover'
+						sx={{
+							mt: '8px',
+							fontSize: '14px',
+							fontWeight: '400',
+							color: 'rgb(123, 142, 152)',
+							ml: 'auto',
+						}}>
+						Восстановить пароль
+					</LinkMiu>
 					<LoadingButton
 						type='submit'
 						disabled={isSubmitted && (!isValid || isSubmitting)}
@@ -121,19 +133,19 @@ function SignUpForm() {
 							borderRadius: '55px',
 							background: 'rgb(255, 228, 77)',
 							color: 'rgb(26, 26, 26)',
-							width: '356px',
 							fontWeight: '700',
+							width: '356px',
 							height: '48px',
 							boxShadow: 'none',
 							textTransform: 'capitalize',
 							fontSize: '16px',
 						}}>
-						Зарегистрироваться
+						Войти
 					</LoadingButton>
 				</Box>
 				<Button
 					component={Link}
-					to='/signin'
+					to='/signup'
 					fullWidth
 					variant='outlined'
 					sx={{
@@ -148,11 +160,11 @@ function SignUpForm() {
 						textTransform: 'capitalize',
 						fontSize: '16px',
 					}}>
-					Войти
+					Регистрация
 				</Button>
 			</Box>
 		</Container>
 	);
 }
 
-export default SignUpForm;
+export default SignInForm;

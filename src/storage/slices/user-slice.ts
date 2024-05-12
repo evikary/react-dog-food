@@ -48,6 +48,9 @@ export const userSlice = createSlice({
 			// return { ...state, info: { ...state.info, ...action.payload } };
 			state.info = { ...state.info, ...action.payload };
 		},
+		clearUser: () => {
+			return initialState;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
