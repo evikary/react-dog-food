@@ -6,25 +6,25 @@ import HomePage from '../pages/home/home-page';
 import '../styles.css';
 import ProfilePage from '../pages/profile/profile-page';
 import CatalogProductsPage from '../pages/catalog-products/catalog-products';
-import { apiToken } from '../utils/constants';
 import FavoritesPage from '../pages/favorites-page/favorite-page';
 import NotFoundPage from '../pages/not-found/not-found';
 import SingleProductPage from '../pages/single-product/single-product';
 import { UserActions } from '../storage/slices/user-slice';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import MyDataPage from '../pages/my-data/my-data';
-import { ProductsActions } from '../storage/slices/products-slice';
 import ReviewsPage from '../pages/reviews/reviews-page';
 import SignUpPage from '../pages/sign-up-page/sign-up-page';
 import SignInPage from '../pages/sign-in-page/sign-in-page';
+import { useAppSelector } from '../hooks/useAppSelector';
+import { authSelector } from '../storage/slices/auth-slice';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
+	const token = useAppSelector(authSelector.accessTokenSelector);
 
 	useEffect(() => {
-		dispatch(ProductsActions.fetchProducts());
-		dispatch(UserActions.fetchUser(apiToken));
-	}, []);
+		dispatch(UserActions.fetchUser(token));
+	}, [token]);
 
 	return (
 		<>

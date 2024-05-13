@@ -3,12 +3,12 @@ import CardList from '../../components/card-list/card-list';
 import SortProduct from '../../components/sort/sort';
 import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { productsSelector } from '../../storage/slices/products-slice';
 import { withProtection } from '../../HOCs/with-protection';
+import { useGetProductsQuery } from '../../storage/api/productsApi';
 
 const CatalogProductsPage = withProtection(() => {
-	const products = useAppSelector(productsSelector.products);
+	const { data, isLoading, isError, error, refetch } = useGetProductsQuery({});
+	console.log({ data, isLoading, isError, error, refetch });
 	const navigate = useNavigate();
 
 	return (
@@ -36,7 +36,7 @@ const CatalogProductsPage = withProtection(() => {
 			</Typography>
 			<SortProduct />
 			<Box sx={{ height: '40px' }} />
-			<CardList products={products} />
+			{data?.products && <CardList products={data.products} />}
 		</Container>
 	);
 });

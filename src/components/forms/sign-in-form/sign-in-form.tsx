@@ -21,7 +21,6 @@ import { signInFormSchema } from './helpers/validator';
 
 function SignInForm() {
 	const location = useLocation();
-	console.log(location);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -40,10 +39,8 @@ function SignInForm() {
 	});
 
 	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
-		console.log('values', values);
 		try {
 			const response = await signInRequestFn(values).unwrap();
-			console.log('response', response);
 			dispatch(UserActions.setUser(response.user));
 			dispatch(
 				authAction.setAccessToken({ accessToken: response.accessToken })
@@ -51,7 +48,6 @@ function SignInForm() {
 			toast.success('Вы зашли в систему!');
 			navigate(location.state?.from || '/products');
 		} catch (error) {
-			console.log(error);
 			toast.error(
 				getMessageFromError(error, 'Не известная ошибка при попытки войти')
 			);

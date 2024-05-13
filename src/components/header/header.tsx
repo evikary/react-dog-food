@@ -8,10 +8,13 @@ import { Link } from 'react-router-dom';
 import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { productsSelector } from '../../storage/slices/products-slice';
+import { useGetProductsQuery } from '../../storage/api/productsApi';
+// import { productsSelector } from '../../storage/slices/products-slice';
 
 function Header() {
-	const products = useAppSelector(productsSelector.products);
+	// const products = useAppSelector(productsSelector.products);
+	const { data, isLoading, isError, error, refetch } = useGetProductsQuery({});
+	console.log({ data, isLoading, isError, error, refetch });
 	const currentUser = useAppSelector(userSelector.user);
 
 	return (
@@ -33,7 +36,8 @@ function Header() {
 							<Badge
 								badgeContent={
 									currentUser &&
-									favoritesProducts(products, currentUser.id).length
+									data?.products &&
+									favoritesProducts(data.products, currentUser.id).length
 								}
 								color='success'>
 								<Favorite sx={{ color: 'rgb(26, 26, 26)' }} />
