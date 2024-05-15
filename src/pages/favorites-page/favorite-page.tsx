@@ -3,16 +3,15 @@ import CardList from '../../components/card-list/card-list';
 import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-// import { productsSelector } from '../../storage/slices/products-slice';
 import ButtonBack from '../../components/button/back-button';
 import { withProtection } from '../../HOCs/with-protection';
 import { useGetProductsQuery } from '../../storage/api/productsApi';
+import { getMessageFromError } from '../../utils/error-utils';
 
 const FavoritesPage = withProtection(() => {
-	// const products = useAppSelector(productsSelector.products);
-	const { data, isLoading, isError, error, refetch } = useGetProductsQuery({});
-	console.log({ data, isLoading, isError, error, refetch });
+	const { data, isLoading, error, refetch } = useGetProductsQuery({});
 	const currentUser = useAppSelector(userSelector.user);
+	const favorites = favoritesProducts(data?.products || [], currentUser?.id);
 
 	return (
 		<Container component='main'>
@@ -23,9 +22,16 @@ const FavoritesPage = withProtection(() => {
 				Избранное
 			</Typography>
 			<Box sx={{ height: '40px' }} />
-			{currentUser && data?.products && (
-				<CardList products={favoritesProducts(data.products, currentUser.id)} />
-			)}
+			<CardList
+				products={favorites}
+				isLoading={isLoading}
+				isError={false}
+				queryErrorMsg={getMessageFromError(
+					error,
+					'Неизвестная ошибка при получении продуктов'
+				)}
+				refetch={refetch}
+			/>
 			<Box sx={{ height: '40px' }} />
 		</Container>
 	);

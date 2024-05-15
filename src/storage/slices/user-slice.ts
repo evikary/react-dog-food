@@ -4,20 +4,10 @@ import { UserType } from '../../types/types-data';
 import { fetchUser, fetchEditUser } from '../thunk/user';
 import { isActionPending, isActionRejected } from '../../utils/store-utils';
 
-// interface StateUser {
-// 	info: UserType | null;
-// 	status: RequestStatus;
-// }
-
 interface StateUser {
 	info: UserType | null;
 	status: RequestStatus;
 }
-
-// const initialState: StateUser = {
-// 	info: null,
-// 	status: RequestStatus.Idle,
-// };
 
 const initialState: StateUser = {
 	info: {
@@ -44,8 +34,6 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		setUser: (state, action) => {
-			// state.info = action.payload;
-			// return { ...state, info: { ...state.info, ...action.payload } };
 			state.info = { ...state.info, ...action.payload };
 		},
 		clearUser: () => {
@@ -55,19 +43,10 @@ export const userSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchUser.fulfilled, (state, action) => {
-				// state.info = action.payload;
-				///
-				// return {
-				// 	...state,
-				// 	status: RequestStatus.Success,
-				// 	info: { ...state.info, ...action.payload },
-				// };
-				///
 				state.status = RequestStatus.Success;
 				state.info = { ...state.info, ...action.payload };
 			})
 			.addCase(fetchEditUser.fulfilled, (state, action) => {
-				// state.info = action.payload;
 				state.status = RequestStatus.Success;
 				state.info = { ...state.info, ...action.payload };
 			})

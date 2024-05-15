@@ -107,7 +107,7 @@ export interface FofmProfile {
 }
 
 export interface FormFeedback {
-	feed: string;
+	text: string;
 	rating: number;
 }
 

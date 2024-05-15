@@ -5,10 +5,10 @@ import IcoLeft from '../../icons/ico-left';
 import { useNavigate } from 'react-router-dom';
 import { withProtection } from '../../HOCs/with-protection';
 import { useGetProductsQuery } from '../../storage/api/productsApi';
+import { getMessageFromError } from '../../utils/error-utils';
 
 const CatalogProductsPage = withProtection(() => {
-	const { data, isLoading, isError, error, refetch } = useGetProductsQuery({});
-	console.log({ data, isLoading, isError, error, refetch });
+	const { data, isLoading, error, refetch } = useGetProductsQuery({});
 	const navigate = useNavigate();
 
 	return (
@@ -36,7 +36,17 @@ const CatalogProductsPage = withProtection(() => {
 			</Typography>
 			<SortProduct />
 			<Box sx={{ height: '40px' }} />
-			{data?.products && <CardList products={data.products} />}
+
+			<CardList
+				products={data?.products || []}
+				isLoading={isLoading}
+				isError={false}
+				queryErrorMsg={getMessageFromError(
+					error,
+					'Неизвестная ошибка при получении продуктов'
+				)}
+				refetch={refetch}
+			/>
 		</Container>
 	);
 });

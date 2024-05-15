@@ -9,12 +9,9 @@ import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
 import { useGetProductsQuery } from '../../storage/api/productsApi';
-// import { productsSelector } from '../../storage/slices/products-slice';
 
 function Header() {
-	// const products = useAppSelector(productsSelector.products);
-	const { data, isLoading, isError, error, refetch } = useGetProductsQuery({});
-	console.log({ data, isLoading, isError, error, refetch });
+	const { data } = useGetProductsQuery({});
 	const currentUser = useAppSelector(userSelector.user);
 
 	return (

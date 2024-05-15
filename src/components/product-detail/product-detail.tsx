@@ -19,12 +19,13 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
 import Feedback from '../feedback/feedback';
 import { Link } from 'react-router-dom';
+import { withQuery } from '../../HOCs/with-query';
 
 interface ProductDetailProps {
 	product: ProductType;
 }
 
-function ProductDetail({ product }: ProductDetailProps) {
+const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 	const currentUser = useAppSelector(userSelector.user);
 	const like = isLiked(product.likes, currentUser?.id);
 	const dispatch = useAppDispatch();
@@ -233,6 +234,6 @@ function ProductDetail({ product }: ProductDetailProps) {
 			</Box>
 		</>
 	);
-}
+});
 
 export default ProductDetail;
