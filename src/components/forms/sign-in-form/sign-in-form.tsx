@@ -18,13 +18,24 @@ import { UserActions } from '../../../storage/slices/user-slice';
 import { authAction } from '../../../storage/slices/auth-slice';
 import { SignInFormValues } from './helpers/types';
 import { signInFormSchema } from './helpers/validator';
+import { useGetUserQuery } from '../../../storage/api/productsApi';
+import { useEffect, useState } from 'react';
 
 function SignInForm() {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
+	const [login, setlogin] = useState<boolean>(false);
 	const [signInRequestFn] = useSignInMutation();
+	const { data } = useGetUserQuery(void 0, { skip: login === false });
+
+	useEffect(() => {
+		if (data) {
+			dispatch(UserActions.setUser(data));
+			toast.success('Вы зашли в систему!');
+			navigate(location.state?.from || '/products');
+		}
+	}, [data]);
 
 	const {
 		control,
@@ -41,12 +52,12 @@ function SignInForm() {
 	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
 		try {
 			const response = await signInRequestFn(values).unwrap();
-			dispatch(UserActions.setUser(response.user));
+
 			dispatch(
 				authAction.setAccessToken({ accessToken: response.accessToken })
 			);
-			toast.success('Вы зашли в систему!');
-			navigate(location.state?.from || '/products');
+
+			setlogin(true);
 		} catch (error) {
 			toast.error(
 				getMessageFromError(error, 'Не известная ошибка при попытки войти')

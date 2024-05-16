@@ -12,8 +12,19 @@ import MyDataPage from '../pages/my-data/my-data';
 import ReviewsPage from '../pages/reviews/reviews-page';
 import SignUpPage from '../pages/sign-up-page/sign-up-page';
 import SignInPage from '../pages/sign-in-page/sign-in-page';
+import { useGetUserQuery } from '../storage/api/productsApi';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useEffect } from 'react';
+import { UserActions } from '../storage/slices/user-slice';
 
 export const App = () => {
+	const dispatch = useAppDispatch();
+	const { data } = useGetUserQuery();
+
+	useEffect(() => {
+		dispatch(UserActions.setUser(data));
+	}, [data]);
+
 	return (
 		<>
 			<Header />

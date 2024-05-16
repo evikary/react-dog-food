@@ -3,8 +3,10 @@ import { customBaseQuery } from './config';
 import {
 	AllProducts,
 	DataCreateFeedback,
+	FofmProfile,
 	ProductType,
 	ReviewsType,
+	UserType,
 } from '../../types/types-data';
 
 export const productsApi = createApi({
@@ -46,6 +48,20 @@ export const productsApi = createApi({
 				{ type: 'Products', id: response?.product.id },
 			],
 		}),
+		getUser: builder.query<UserType, void>({
+			query: () => ({
+				url: '/users/me',
+				method: 'GET',
+			}),
+		}),
+		updatedUser: builder.mutation<UserType, FofmProfile>({
+			query: (data) => ({
+				url: '/users/me',
+				method: 'PATCH',
+				body: data,
+			}),
+			invalidatesTags: [{ type: 'Products' }],
+		}),
 	}),
 });
 
@@ -53,4 +69,6 @@ export const {
 	useGetProductsQuery,
 	useCreateReviewMutation,
 	useGetProductByIdQuery,
+	useGetUserQuery,
+	useUpdatedUserMutation,
 } = productsApi;
