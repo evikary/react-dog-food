@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { ProductsActions } from '../../storage/slices/products-slice';
+// import { useAppDispatch } from '../../hooks/useAppDispatch';
+// import { ProductsActions } from '../../storage/slices/products-slice';
 import { useNavigate } from 'react-router-dom';
 
 function SearchElements() {
@@ -18,14 +18,14 @@ function SearchElements() {
 	}));
 
 	const [search, setSearch] = useState('');
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
-		dispatch(
-			ProductsActions.fetchSearchProducts({ searchTerm: e.target.value })
-		);
+		// dispatch(
+		// 	ProductsActions.fetchSearchProducts({ searchTerm: e.target.value })
+		// );
 		navigate('/products');
 	};
 

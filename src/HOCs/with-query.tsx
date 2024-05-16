@@ -29,8 +29,6 @@ export const withQuery = <WrappedComponentProps extends object>(
 			...wrappedComponentProps
 		} = props;
 
-		console.log('withQuery', { isLoading, isError, queryErrorMsg, refetch });
-
 		// Ошибки часто возникают при сетевых взаимодействия,
 		// нужно быть к ним готовым
 		if (isError) {

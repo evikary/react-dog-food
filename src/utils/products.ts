@@ -4,7 +4,7 @@ export const isLiked = (
 	likes: LikeType[] | undefined,
 	idUser: string | undefined
 ) => {
-	return likes?.some((favorite) => favorite.userId === idUser);
+	return likes?.some((favorite) => favorite.userId === idUser) || false;
 };
 
 export function favoritesProducts(

@@ -2,8 +2,10 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { customBaseQuery } from './config';
 import {
 	AllProducts,
+	ChangeLikeData,
 	DataCreateFeedback,
 	FofmProfile,
+	LikeChangeType,
 	ProductType,
 	ReviewsType,
 	UserType,
@@ -62,6 +64,13 @@ export const productsApi = createApi({
 			}),
 			invalidatesTags: [{ type: 'Products' }],
 		}),
+		changelike: builder.mutation<LikeChangeType, ChangeLikeData>({
+			query: (data) => ({
+				url: `/products/${data.id}/likes`,
+				method: data.like ? 'DELETE' : 'PUT',
+			}),
+			invalidatesTags: [{ type: 'Products' }],
+		}),
 	}),
 });
 
@@ -71,4 +80,5 @@ export const {
 	useGetProductByIdQuery,
 	useGetUserQuery,
 	useUpdatedUserMutation,
+	useChangelikeMutation,
 } = productsApi;

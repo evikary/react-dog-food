@@ -7,8 +7,7 @@ import { isLiked } from '../../utils/products';
 import IcoBin from '../../icons/ico-bin';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
+import { useChangelikeMutation } from '../../storage/api/productsApi';
 
 type CardProductProps = {
 	product: ProductType;
@@ -17,15 +16,14 @@ type CardProductProps = {
 function CardProduct({ product }: CardProductProps) {
 	const location = useLocation();
 	const currentUser = useAppSelector(userSelector.user);
-	const dispatch = useAppDispatch();
+	const [changeLikeReviewFn] = useChangelikeMutation();
 
-	function handleLikeProduct() {
-		if (product.likes) {
-			dispatch(fetchChangeLikeProduct(product));
-		}
-	}
+	const handleLikeProduct = async () => {
+		await changeLikeReviewFn({ id: product.id, like: like }).unwrap();
+	};
 
 	const like = isLiked(product.likes, currentUser?.id);
+	console.log({ like });
 
 	return (
 		<Grid

@@ -106,6 +106,11 @@ export interface FofmProfile {
 	email: string;
 }
 
+export interface ChangeLikeData {
+	id: string;
+	like: boolean;
+}
+
 export interface FormFeedback {
 	text: string;
 	rating: number;
