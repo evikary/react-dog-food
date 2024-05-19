@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
-// import { useAppDispatch } from '../../hooks/useAppDispatch';
-// import { ProductsActions } from '../../storage/slices/products-slice';
+import { ChangeEvent, useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useNavigate } from 'react-router-dom';
+import { useSearch } from '../../hooks/useSearch';
+import { filtersActions } from '../../storage/slices/filters-slice';
+import { useDebounce } from '../../hooks/useDebounce';
 
 function SearchElements() {
 	const Search = styled('form')(() => ({
@@ -17,15 +19,17 @@ function SearchElements() {
 		borderRadius: '34px',
 	}));
 
-	const [search, setSearch] = useState('');
-	// const dispatch = useAppDispatch();
+	const { search, setSearch } = useSearch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const debounceValue = useDebounce(search, 1000);
+
+	useEffect(() => {
+		dispatch(filtersActions.setFilters({ searchTerm: debounceValue }));
+	}, [debounceValue]);
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
-		// dispatch(
-		// 	ProductsActions.fetchSearchProducts({ searchTerm: e.target.value })
-		// );
 		navigate('/products');
 	};
 

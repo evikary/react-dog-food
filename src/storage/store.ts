@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { unitApi } from '../utils/api';
 import { rootReducer } from './root-reducer/root-reducer';
 import {
 	persistStore,
@@ -19,7 +18,7 @@ import { productsApi } from './api/productsApi';
 const persistConfig = {
 	key: 'root',
 	storage,
-	version: 1,
+	version: 2,
 	// сетевые данные в localStorage не сохраняем
 	blacklist: [authApi.reducerPath, productsApi.reducerPath],
 };
@@ -31,9 +30,6 @@ const store = configureStore({
 	devTools: process.env.NODE_ENV !== 'production',
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
-			thunk: {
-				extraArgument: unitApi,
-			},
 			serializableCheck: {
 				// из доки redux-persist
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

@@ -4,6 +4,7 @@ import {
 	AllProducts,
 	ChangeLikeData,
 	DataCreateFeedback,
+	Filters,
 	FofmProfile,
 	LikeChangeType,
 	ProductType,
@@ -16,14 +17,14 @@ export const productsApi = createApi({
 	baseQuery: customBaseQuery,
 	tagTypes: ['Products'],
 	endpoints: (builder) => ({
-		getProducts: builder.query<AllProducts, object>({
-			query: () => ({
+		getProducts: builder.query<AllProducts, Partial<Filters>>({
+			query: ({ searchTerm, page }) => ({
 				url: '/products',
 				params: {
 					sort: 'newest',
-					searchTerm: '',
+					searchTerm: searchTerm || '',
 					perPage: 8,
-					page: 1,
+					page: page || 1,
 				},
 			}),
 			providesTags: [{ type: 'Products' }],

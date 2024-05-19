@@ -23,7 +23,6 @@ function CardProduct({ product }: CardProductProps) {
 	};
 
 	const like = isLiked(product.likes, currentUser?.id);
-	console.log({ like });
 
 	return (
 		<Grid

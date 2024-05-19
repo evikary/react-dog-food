@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { withProtection } from '../../HOCs/with-protection';
 import { useGetProductsQuery } from '../../storage/api/productsApi';
 import { getMessageFromError } from '../../utils/error-utils';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { filtersSelector } from '../../storage/slices/filters-slice';
 
 const CatalogProductsPage = withProtection(() => {
-	const { data, isLoading, error, refetch } = useGetProductsQuery({});
+	const filters = useAppSelector(filtersSelector.filters);
+	const { data, isLoading, error, refetch } = useGetProductsQuery(filters);
 	const navigate = useNavigate();
 
 	return (

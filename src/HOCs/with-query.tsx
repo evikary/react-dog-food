@@ -57,7 +57,6 @@ export const withQuery = <WrappedComponentProps extends object>(
 		// индикатор загрузки. Чтобы конечный пользователь понимал, что
 		// наше приложение не зависло и скоро покажет данные
 		if (isLoading) {
-			console.log('isLoading');
 			return (
 				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 					<CircularProgress />

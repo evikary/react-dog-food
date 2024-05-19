@@ -167,3 +167,8 @@ export type SearchParam = {
 export type Token = {
 	accessToken: string;
 };
+
+export interface Filters {
+	searchTerm: string;
+	page: number;
+}
