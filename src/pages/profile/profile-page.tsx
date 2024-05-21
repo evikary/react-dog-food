@@ -7,7 +7,7 @@ import { UserContext } from '../../context/user-context';
 function ProfilePage() {
 	const currentUser = useContext(UserContext);
 	return (
-		<Container component='main' sx={{ height: 'calc(100vh - 192px - 96px)' }}>
+		<Container component='main'>
 			<Box sx={{ width: '617px', pt: '20px', margin: 'auto' }}>
 				<Typography sx={{ fontSize: '28px', fontWeight: '800', mb: '20px' }}>
 					Профиль

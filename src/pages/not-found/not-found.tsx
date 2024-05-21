@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function NotFoundPage() {
 	return (
-		<Container component='main' sx={{ height: 'calc(100vh - 192px - 96px)' }}>
+		<Container component='main'>
 			<Box
 				sx={{
 					display: 'flex',

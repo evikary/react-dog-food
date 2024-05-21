@@ -2,7 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 function EmptyList() {
 	return (
-		<Container component='main' sx={{ height: 'calc(100vh - 192px - 96px)' }}>
+		<Container component='main'>
 			<Box
 				display='flex'
 				alignItems='center'

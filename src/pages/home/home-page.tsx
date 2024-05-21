@@ -9,7 +9,6 @@ function HomePage() {
 			disableGutters
 			component='main'
 			sx={{
-				height: 'calc(100vh - 192px - 96px)',
 				pt: 5,
 				pb: 3,
 				background: 'rgb(255, 228, 77)',

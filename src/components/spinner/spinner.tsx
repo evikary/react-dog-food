@@ -4,7 +4,7 @@ import { Container } from '@mui/material';
 
 function Spinner() {
 	return (
-		<Container component='main' sx={{ height: 'calc(100vh - 192px - 96px)' }}>
+		<Container component='main'>
 			<Box
 				height='100%'
 				display='flex'

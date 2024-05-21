@@ -71,7 +71,7 @@ export const App = () => {
 							element={<SingleProductPage />}
 						/>
 					</Routes>
-					<Footer />s{' '}
+					<Footer />
 				</ProductsContext.Provider>
 			</UserContext.Provider>
 		</>

@@ -1,4 +1,4 @@
-import dog from '../../../images/dog2.png';
+import dog from './dog2.png';
 import style from './dog-mage.module.css';
 
 function DogImage() {
