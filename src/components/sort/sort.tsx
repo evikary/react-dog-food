@@ -7,7 +7,7 @@ function SortProduct() {
 			sx={{
 				display: 'flex',
 				columnGap: '16px',
-				mt: '50px',
+				mt: '20px',
 				mb: '40px',
 				padding: '12px 16px',
 			}}>

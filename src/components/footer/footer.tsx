@@ -1,11 +1,12 @@
-import { Box, Container, Link, Typography } from '@mui/material';
-import Logo from '../logo/logo';
+import { Box, Container, Link as LinkMiu, Typography } from '@mui/material';
+import Logo from '../header/logo/logo';
 import telegram from '../../images/telegram.png';
 import viber from '../../images/viber.png';
 import instagram from '../../images/logo-instagram.png';
 import whatsapp from '../../images/logo-whatsapp.png';
 import vk from '../../images/logo-vk.png';
 import s from './footer.module.css';
+import { Link } from 'react-router-dom';
 
 function Footer() {
 	return (
@@ -16,13 +17,15 @@ function Footer() {
 				<Box
 					component='div'
 					sx={{ display: 'flex', flexDirection: 'column', rowGap: '46px' }}>
-					<Logo />
-					<Link
+					<Link to={'/'}>
+						<Logo />
+					</Link>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{ fontSize: '9px', color: 'rgb(26, 26, 26)' }}>
 						© «Интернет-магазин DogFood.ru»
-					</Link>
+					</LinkMiu>
 				</Box>
 				<Box
 					component='div'
@@ -31,8 +34,9 @@ function Footer() {
 						flexDirection: 'column',
 						justifyContent: 'space-between',
 					}}>
-					<Link
-						href='#'
+					<LinkMiu
+						component={Link}
+						to={'/products'}
 						underline='hover'
 						sx={{
 							fontSize: '12px',
@@ -40,8 +44,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Каталог
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -50,8 +54,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Акции
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -60,8 +64,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Новости
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -70,7 +74,7 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Отзывы
-					</Link>
+					</LinkMiu>
 				</Box>
 				<Box
 					component='div'
@@ -79,7 +83,7 @@ function Footer() {
 						flexDirection: 'column',
 						justifyContent: 'space-between',
 					}}>
-					<Link
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -88,8 +92,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Оплата и доставка
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -98,8 +102,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Часто спрашивают
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -108,8 +112,8 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Обратная связь
-					</Link>
-					<Link
+					</LinkMiu>
+					<LinkMiu
 						href='#'
 						underline='hover'
 						sx={{
@@ -118,7 +122,7 @@ function Footer() {
 							color: 'rgb(26, 26, 26)',
 						}}>
 						Контакты
-					</Link>
+					</LinkMiu>
 				</Box>
 				<Box
 					component='div'
@@ -143,7 +147,7 @@ function Footer() {
 							sx={{ fontSize: '16px', fontWeight: '700', lineHeight: '20px' }}>
 							8 (999) 00-00-00
 						</Typography>
-						<Link
+						<LinkMiu
 							href='#'
 							underline='hover'
 							sx={{
@@ -152,7 +156,7 @@ function Footer() {
 								color: 'rgb(26, 26, 26)',
 							}}>
 							dogfood.ru@gmail.com
-						</Link>
+						</LinkMiu>
 					</Box>
 					<Box
 						component='div'
@@ -160,21 +164,21 @@ function Footer() {
 							display: 'flex',
 							columnGap: '12px',
 						}}>
-						<Link href='#'>
+						<LinkMiu href='#'>
 							<img src={telegram} alt='telegram' className={s.social} />
-						</Link>
-						<Link href='#'>
+						</LinkMiu>
+						<LinkMiu href='#'>
 							<img src={whatsapp} alt='whatsapp' className={s.social} />
-						</Link>
-						<Link href='#'>
+						</LinkMiu>
+						<LinkMiu href='#'>
 							<img src={viber} alt='viber' className={s.social} />
-						</Link>
-						<Link href='#'>
+						</LinkMiu>
+						<LinkMiu href='#'>
 							<img src={instagram} alt='instagram' className={s.social} />
-						</Link>
-						<Link href='#'>
+						</LinkMiu>
+						<LinkMiu href='#'>
 							<img src={vk} alt='vk' className={s.social} />
-						</Link>
+						</LinkMiu>
 					</Box>
 				</Box>
 			</Container>

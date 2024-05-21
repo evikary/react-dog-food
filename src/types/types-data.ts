@@ -1,3 +1,8 @@
+export type AllProducts = {
+	products: ProductType[];
+	length: number;
+};
+
 export type ProductType = {
 	updatedAt?: string;
 	wight?: string;
@@ -81,4 +86,13 @@ export type ReviewsType = {
 	rating: number;
 	id: string;
 	product: ProductType;
+};
+
+export type LikeChangeType = {
+	message: string;
+	product: {
+		id: string;
+		userId: string;
+		productId: string;
+	};
 };
