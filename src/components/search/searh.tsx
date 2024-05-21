@@ -3,25 +3,23 @@ import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useNavigate } from 'react-router-dom';
 import { useSearch } from '../../hooks/useSearch';
 import { filtersActions } from '../../storage/slices/filters-slice';
 import { useDebounce } from '../../hooks/useDebounce';
 
-function SearchElements() {
-	const Search = styled('form')(() => ({
-		width: '468px',
-		height: '48px',
-		display: 'flex',
-		alignItems: 'center',
-		background: 'rgb(255, 255, 255)',
-		padding: '12px 20px',
-		borderRadius: '34px',
-	}));
+const Search = styled('form')(() => ({
+	width: '468px',
+	height: '48px',
+	display: 'flex',
+	alignItems: 'center',
+	background: 'rgb(255, 255, 255)',
+	padding: '12px 20px',
+	borderRadius: '34px',
+}));
 
+function SearchElements() {
 	const { search, setSearch } = useSearch();
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 	const debounceValue = useDebounce(search, 1000);
 
 	useEffect(() => {
@@ -30,17 +28,14 @@ function SearchElements() {
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
-		navigate('/products');
 	};
 
 	return (
 		<Search>
 			<InputBase
-				// eslint-disable-next-line jsx-a11y/no-autofocus
-				autoFocus={true}
 				placeholder='Поиск'
 				fullWidth
-				defaultValue={search}
+				value={search}
 				onChange={onChange}
 			/>
 			<SearchIcon sx={{ fill: 'rgb(207, 216, 220)' }} />

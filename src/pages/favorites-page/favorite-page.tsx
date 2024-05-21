@@ -1,17 +1,14 @@
 import { Box, Container, Typography } from '@mui/material';
 import CardList from '../../components/card-list/card-list';
-import { favoritesProducts } from '../../utils/products';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
 import ButtonBack from '../../components/button/back-button';
 import { withProtection } from '../../HOCs/with-protection';
-import { useGetProductsQuery } from '../../storage/api/productsApi';
+import { useGetUserQuery } from '../../storage/api/productsApi';
 import { getMessageFromError } from '../../utils/error-utils';
+import { ProductType } from '../../types/types-data';
 
 const FavoritesPage = withProtection(() => {
-	const { data, isLoading, error, refetch } = useGetProductsQuery({});
-	const currentUser = useAppSelector(userSelector.user);
-	const favorites = favoritesProducts(data?.products || [], currentUser?.id);
+	const { data, isLoading, refetch, error } = useGetUserQuery();
+	const likeProducts = data?.likes?.map((item) => item.product);
 
 	return (
 		<Container component='main'>
@@ -23,7 +20,7 @@ const FavoritesPage = withProtection(() => {
 			</Typography>
 			<Box sx={{ height: '40px' }} />
 			<CardList
-				products={favorites}
+				products={(likeProducts as ProductType[]) || []}
 				isLoading={isLoading}
 				isError={false}
 				queryErrorMsg={getMessageFromError(

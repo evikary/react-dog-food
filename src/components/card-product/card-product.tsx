@@ -5,9 +5,10 @@ import InBasketBtn from './in-basket-button/in-basket-button';
 import { Link, useLocation } from 'react-router-dom';
 import { isLiked } from '../../utils/products';
 import IcoBin from '../../icons/ico-bin';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
-import { useChangelikeMutation } from '../../storage/api/productsApi';
+import {
+	useChangelikeMutation,
+	useGetUserQuery,
+} from '../../storage/api/productsApi';
 
 type CardProductProps = {
 	product: ProductType;
@@ -15,14 +16,14 @@ type CardProductProps = {
 
 function CardProduct({ product }: CardProductProps) {
 	const location = useLocation();
-	const currentUser = useAppSelector(userSelector.user);
+	const { data } = useGetUserQuery();
 	const [changeLikeReviewFn] = useChangelikeMutation();
 
 	const handleLikeProduct = async () => {
 		await changeLikeReviewFn({ id: product.id, like: like }).unwrap();
 	};
 
-	const like = isLiked(product.likes, currentUser?.id);
+	const like = isLiked(data?.likes, product.id);
 
 	return (
 		<Grid

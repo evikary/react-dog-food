@@ -1,9 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Filters } from '../../types/types-data';
 
-const initialState: Filters = {
+const initialState: Pick<Filters, 'searchTerm'> = {
 	searchTerm: '',
-	page: 1,
 };
 
 export const filtersSlice = createSlice({

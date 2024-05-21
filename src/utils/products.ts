@@ -2,16 +2,19 @@ import { LikeType, ProductType } from '../types/types-data';
 
 export const isLiked = (
 	likes: LikeType[] | undefined,
-	idUser: string | undefined
+	idProduct: string | undefined
 ) => {
-	return likes?.some((favorite) => favorite.userId === idUser) || false;
+	return likes?.some((favorite) => favorite.product?.id === idProduct) || false;
 };
 
 export function favoritesProducts(
 	dataProducts: ProductType[],
-	idUser: string | undefined
+	idProduct: string | undefined,
+	likesProduct: LikeType[]
 ) {
-	return dataProducts.filter((item) => isLiked(item.likes, idUser));
+	if (isLiked(likesProduct, idProduct)) {
+		return dataProducts.filter((item) => item.id === idProduct);
+	}
 }
 
 export const getDate = (data: string) => {

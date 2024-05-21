@@ -19,3 +19,9 @@ export const fakeFetch = <Data extends object>(
 		}, delay);
 	});
 };
+
+export const sleep = async (ms: number) => {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+};

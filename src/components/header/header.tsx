@@ -5,13 +5,12 @@ import { Favorite } from '@mui/icons-material';
 import icoDog from '../../images/dog.png';
 import icoBuy from '../../images/buy.png';
 import { Link } from 'react-router-dom';
-import { favoritesProducts } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { useGetProductsQuery } from '../../storage/api/productsApi';
+import { useGetUserQuery } from '../../storage/api/productsApi';
 
 function Header() {
-	const { data } = useGetProductsQuery({});
+	const { data } = useGetUserQuery();
 	const currentUser = useAppSelector(userSelector.user);
 
 	return (
@@ -31,11 +30,7 @@ function Header() {
 					<Link to={'/favorites'}>
 						<IconButton size='large' color='inherit'>
 							<Badge
-								badgeContent={
-									currentUser &&
-									data?.products &&
-									favoritesProducts(data.products, currentUser.id).length
-								}
+								badgeContent={currentUser && data?.likes && data.likes.length}
 								color='success'>
 								<Favorite sx={{ color: 'rgb(26, 26, 26)' }} />
 							</Badge>

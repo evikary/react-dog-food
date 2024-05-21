@@ -11,11 +11,29 @@ import {
 	ReviewsType,
 	UserType,
 } from '../../types/types-data';
+import { sleep } from '../../utils/common-utils';
+
+const defaultUser = {
+	id: '',
+	createdAt: '',
+	updatedAt: '',
+	email: '',
+	password: '',
+	isAdmin: false,
+	isBlocked: false,
+	name: '',
+	avatarPath: '',
+	about: '',
+	phone: '',
+	roles: [],
+	likes: [],
+	favoritesPost: [],
+};
 
 export const productsApi = createApi({
 	reducerPath: 'productsApi',
 	baseQuery: customBaseQuery,
-	tagTypes: ['Products'],
+	tagTypes: ['Products', 'User'],
 	endpoints: (builder) => ({
 		getProducts: builder.query<AllProducts, Partial<Filters>>({
 			query: ({ searchTerm, page }) => ({
@@ -23,10 +41,23 @@ export const productsApi = createApi({
 				params: {
 					sort: 'newest',
 					searchTerm: searchTerm || '',
-					perPage: 8,
-					page: page || 1,
+					perPage: 4,
+					page: page || '',
 				},
 			}),
+			merge(currentCacheData, responseData, { arg: { page } }) {
+				if (page === 1) {
+					currentCacheData = responseData;
+				} else {
+					currentCacheData.products.push(...responseData.products);
+				}
+			},
+			serializeQueryArgs: ({ endpointName, queryArgs: { searchTerm } }) => {
+				return endpointName + searchTerm;
+			},
+			forceRefetch: ({ currentArg, previousArg }) => {
+				return currentArg?.page !== previousArg?.page;
+			},
 			providesTags: [{ type: 'Products' }],
 		}),
 		getProductById: builder.query<ProductType, ProductType['id']>({
@@ -52,10 +83,17 @@ export const productsApi = createApi({
 			],
 		}),
 		getUser: builder.query<UserType, void>({
-			query: () => ({
-				url: '/users/me',
-				method: 'GET',
-			}),
+			queryFn: async (_arg, _api, _extraOptions, baseQuery) => {
+				console.log('queryFn');
+				await sleep(1000);
+				const response = await baseQuery({
+					url: '/users/me',
+				});
+				return response.data
+					? { data: response.data as UserType }
+					: { data: defaultUser as UserType };
+			},
+			providesTags: ['User'],
 		}),
 		updatedUser: builder.mutation<UserType, FofmProfile>({
 			query: (data) => ({
@@ -70,7 +108,7 @@ export const productsApi = createApi({
 				url: `/products/${data.id}/likes`,
 				method: data.like ? 'DELETE' : 'PUT',
 			}),
-			invalidatesTags: [{ type: 'Products' }],
+			invalidatesTags: ['User'],
 		}),
 	}),
 });
