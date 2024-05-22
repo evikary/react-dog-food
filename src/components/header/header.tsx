@@ -36,9 +36,11 @@ function Header() {
 							</Badge>
 						</IconButton>
 					</Link>
-					<IconButton size='large' color='inherit'>
-						<img src={icoBuy} alt='icoBuy' />
-					</IconButton>
+					<Link to={'/basket'}>
+						<IconButton size='large' color='inherit'>
+							<img src={icoBuy} alt='icoBuy' />
+						</IconButton>
+					</Link>
 					<Link to={'/profile'}>
 						<IconButton
 							size='large'

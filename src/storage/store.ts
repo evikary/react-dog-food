@@ -15,13 +15,19 @@ import storage from 'redux-persist/lib/storage';
 import { authApi } from './api/authApi';
 import { productsApi } from './api/productsApi';
 import { filtersSlice } from './slices/filters-slice';
+import { buySlice } from './slices/buy-slice';
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	version: 3,
+	version: 4,
 	// сетевые данные в localStorage не сохраняем
-	blacklist: [authApi.reducerPath, productsApi.reducerPath, filtersSlice.name],
+	blacklist: [
+		authApi.reducerPath,
+		productsApi.reducerPath,
+		filtersSlice.name,
+		buySlice.name,
+	],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

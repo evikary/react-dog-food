@@ -104,7 +104,11 @@ const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 								+
 							</Button>
 						</Box>
-						<InBasketBtn />
+						<InBasketBtn
+							id={product.id}
+							price={product.price}
+							discount={product.discount}
+						/>
 					</Box>
 					<Button
 						variant='text'

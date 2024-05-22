@@ -16,6 +16,7 @@ import { useGetUserQuery } from '../storage/api/productsApi';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { UserActions } from '../storage/slices/user-slice';
+import BasketPage from '../pages/basket-page/basket-page';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ export const App = () => {
 				<Route path='*' element={<NotFoundPage />} />
 				<Route path='/profile' element={<ProfilePage />} />
 				<Route path='/signup' element={<SignUpPage />} />
+				<Route path='/basket' element={<BasketPage />} />
 				<Route path='/signin' element={<SignInPage />} />
 				<Route path='/profile/my' element={<MyDataPage />} />
 				<Route path='/reviews/leave/:idProduct' element={<ReviewsPage />} />

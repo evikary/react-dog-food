@@ -55,7 +55,6 @@ const CatalogProductsPage = withProtection(() => {
 			</Typography>
 			<SortProduct />
 			<Box sx={{ height: '40px' }} />
-
 			<CardList
 				products={data?.products || []}
 				isLoading={isLoading}

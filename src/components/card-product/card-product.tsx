@@ -81,7 +81,11 @@ function CardProduct({ product }: CardProductProps) {
 					sx={{ fontSize: '16px', fontWeight: '600' }}>
 					{product.name}
 				</Typography>
-				<InBasketBtn />
+				<InBasketBtn
+					id={product.id}
+					price={product.price}
+					discount={product.discount}
+				/>
 			</Box>
 		</Grid>
 	);
