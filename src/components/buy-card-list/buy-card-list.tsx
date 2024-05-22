@@ -27,7 +27,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 
 	return (
 		<>
-			<Stack>
+			<Stack rowGap='5px'>
 				{cards.map((item) => {
 					return (
 						<BuyCard

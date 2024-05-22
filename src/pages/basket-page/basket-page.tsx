@@ -3,9 +3,11 @@ import ButtonBack from '../../components/button/back-button';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { buySelector } from '../../storage/slices/buy-slice';
 import BuyCardList from '../../components/buy-card-list/buy-card-list';
+import { countProducts, words } from '../../utils/products';
 
 const BasketPage = () => {
 	const buyCards = useAppSelector(buySelector.cards);
+	const count = countProducts(buyCards);
 
 	return (
 		<Container component='main'>
@@ -14,7 +16,7 @@ const BasketPage = () => {
 				<Typography
 					component='span'
 					sx={{ fontSize: '28px', fontWeight: '800' }}>
-					{buyCards.length} товар
+					{count} {words(count, ['товар', 'товара', 'товаров'])}
 				</Typography>
 				<Typography
 					component='span'

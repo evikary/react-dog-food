@@ -8,9 +8,12 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
 import { useGetUserQuery } from '../../storage/api/productsApi';
+import { buySelector } from '../../storage/slices/buy-slice';
+import { countProducts } from '../../utils/products';
 
 function Header() {
 	const { data } = useGetUserQuery();
+	const buyData = useAppSelector(buySelector.cards);
 	const currentUser = useAppSelector(userSelector.user);
 
 	return (
@@ -38,7 +41,11 @@ function Header() {
 					</Link>
 					<Link to={'/basket'}>
 						<IconButton size='large' color='inherit'>
-							<img src={icoBuy} alt='icoBuy' />
+							<Badge
+								badgeContent={currentUser && countProducts(buyData)}
+								color='success'>
+								<img src={icoBuy} alt='icoBuy' />
+							</Badge>
 						</IconButton>
 					</Link>
 					<Link to={'/profile'}>

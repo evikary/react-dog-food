@@ -1,6 +1,15 @@
-import { Box, Button, CardMedia, Divider, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CardMedia,
+	Divider,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import IcoBin from '../../icons/ico-bin';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { buyActions } from '../../storage/slices/buy-slice';
 
 interface BuyCardProps {
 	id: string;
@@ -9,9 +18,16 @@ interface BuyCardProps {
 
 const BuyCard = ({ id, count }: BuyCardProps) => {
 	const { data } = useGetProductByIdQuery(id);
+	const dispatch = useAppDispatch();
 
 	const endPrice = (price: number, discount: number) => {
 		return price - discount;
+	};
+
+	const handleDeleteProduct = (id: string | undefined) => {
+		if (id) {
+			dispatch(buyActions.removeBuyCard(id));
+		}
 	};
 
 	return (
@@ -81,19 +97,33 @@ const BuyCard = ({ id, count }: BuyCardProps) => {
 						+
 					</Button>
 				</Box>
-				<Box>
+				{data?.discount ? (
+					<Box>
+						<Typography
+							component='p'
+							sx={{
+								fontSize: '14px',
+								fontWeight: '700',
+								textDecoration: 'line-through',
+							}}>
+							{data?.price} ₽
+						</Typography>
+						<Typography
+							component='p'
+							sx={{ fontSize: '20px', fontWeight: '800', color: 'red' }}>
+							{endPrice(data?.price || 0, data?.discount || 0)} ₽
+						</Typography>
+					</Box>
+				) : (
 					<Typography
 						component='p'
-						sx={{ fontSize: '14px', fontWeight: '700' }}>
-						{data?.price}
+						sx={{ fontSize: '20px', fontWeight: '800' }}>
+						{data?.price} ₽
 					</Typography>
-					<Typography
-						component='p'
-						sx={{ fontSize: '20px', fontWeight: '800', color: 'red' }}>
-						{endPrice(data?.price || 0, data?.discount || 0)}
-					</Typography>
-				</Box>
-				<IcoBin />
+				)}
+				<IconButton onClick={() => handleDeleteProduct(data?.id)}>
+					<IcoBin />
+				</IconButton>
 			</Box>
 			<Divider />
 		</div>
