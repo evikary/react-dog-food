@@ -85,6 +85,7 @@ function CardProduct({ product }: CardProductProps) {
 					id={product.id}
 					price={product.price}
 					discount={product.discount}
+					stock={product.stock}
 				/>
 			</Box>
 		</Grid>

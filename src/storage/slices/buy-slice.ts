@@ -5,6 +5,7 @@ export interface StateBuyCard {
 	count: number;
 	price: number;
 	discount: number;
+	stock: number;
 }
 
 const initialState: StateBuyCard[] = [];
@@ -26,6 +27,13 @@ export const buySlice = createSlice({
 			} else {
 				state.push(action.payload);
 			}
+		},
+		decreaseCount: (state, action: PayloadAction<string>) => {
+			state.forEach((item) => {
+				if (item.idProduct === action.payload) {
+					item.count = item.count - 1;
+				}
+			});
 		},
 		removeBuyCard: (state, action: PayloadAction<string>) => {
 			return state.filter((item) => item.idProduct !== action.payload);

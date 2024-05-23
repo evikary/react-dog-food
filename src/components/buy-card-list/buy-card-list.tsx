@@ -3,6 +3,7 @@ import BuyCard from '../buy-card/buy-card';
 import { StateBuyCard } from '../../storage/slices/buy-slice';
 import EmptyList from '../empty-list/empty-list';
 import PlaceOnOrder from '../../pages/basket-page/place-on-order/place-on-order';
+import { countProducts } from '../../utils/products';
 
 interface BuyCardList {
 	cards: StateBuyCard[];
@@ -25,6 +26,8 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 		return allSum() - allDiscount();
 	};
 
+	const productsCount = countProducts(cards);
+
 	return (
 		<>
 			<Stack rowGap='5px'>
@@ -34,6 +37,9 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 							key={item.idProduct}
 							id={item.idProduct}
 							count={item.count}
+							stock={item.stock}
+							price={item.price}
+							discount={item.discount}
 						/>
 					);
 				})}
@@ -61,7 +67,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					<Typography
 						component='p'
 						sx={{ fontSize: '14px', fontWeight: '400' }}>
-						Товары
+						Товары ({productsCount})
 					</Typography>
 					<Typography
 						component='p'

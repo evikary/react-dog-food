@@ -6,9 +6,10 @@ interface InBasketBtnProps {
 	id: string;
 	price: number;
 	discount: number;
+	stock: number;
 }
 
-function InBasketBtn({ id, price, discount }: InBasketBtnProps) {
+function InBasketBtn({ id, price, discount, stock }: InBasketBtnProps) {
 	const dispatch = useAppDispatch();
 
 	const handleClick = () => {
@@ -18,6 +19,7 @@ function InBasketBtn({ id, price, discount }: InBasketBtnProps) {
 				count: 1,
 				price: price,
 				discount: discount,
+				stock: stock,
 			})
 		);
 	};

@@ -1,22 +1,19 @@
-import {
-	Box,
-	Button,
-	CardMedia,
-	Divider,
-	IconButton,
-	Typography,
-} from '@mui/material';
+import { Box, CardMedia, Divider, IconButton, Typography } from '@mui/material';
 import IcoBin from '../../icons/ico-bin';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { buyActions } from '../../storage/slices/buy-slice';
+import CounterButton from '../button/counter-button/counter-button';
 
 interface BuyCardProps {
 	id: string;
 	count: number;
+	stock: number;
+	price: number;
+	discount: number;
 }
 
-const BuyCard = ({ id, count }: BuyCardProps) => {
+const BuyCard = ({ id, count, stock, price, discount }: BuyCardProps) => {
 	const { data } = useGetProductByIdQuery(id);
 	const dispatch = useAppDispatch();
 
@@ -60,43 +57,13 @@ const BuyCard = ({ id, count }: BuyCardProps) => {
 						{data?.wight}
 					</Typography>
 				</Box>
-				<Box
-					display='flex'
-					width='109px'
-					height='48px'
-					alignItems='center'
-					justifyContent='space-around'
-					sx={{
-						border: '1px solid rgb(207, 216, 220)',
-						borderRadius: '100px',
-					}}>
-					<Button
-						variant='text'
-						disabled
-						sx={{
-							fontSize: '21px',
-							fontWeight: '700',
-							color: 'rgb(26, 26, 26)',
-							padding: '0',
-							minWidth: '24px',
-						}}>
-						-
-					</Button>
-					<Typography sx={{ fontSize: '21px', fontWeight: '700' }}>
-						{count}
-					</Typography>
-					<Button
-						variant='text'
-						sx={{
-							fontSize: '21px',
-							fontWeight: '700',
-							color: 'rgb(26, 26, 26)',
-							padding: '0',
-							minWidth: '24px',
-						}}>
-						+
-					</Button>
-				</Box>
+				<CounterButton
+					count={count}
+					stock={stock}
+					idProduct={id}
+					price={price}
+					discount={discount}
+				/>
 				{data?.discount ? (
 					<Box>
 						<Typography
