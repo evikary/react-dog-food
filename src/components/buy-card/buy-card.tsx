@@ -1,4 +1,11 @@
-import { Box, CardMedia, Divider, IconButton, Typography } from '@mui/material';
+import {
+	Box,
+	CardMedia,
+	Checkbox,
+	Divider,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import IcoBin from '../../icons/ico-bin';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -11,9 +18,17 @@ interface BuyCardProps {
 	stock: number;
 	price: number;
 	discount: number;
+	check: boolean;
 }
 
-const BuyCard = ({ id, count, stock, price, discount }: BuyCardProps) => {
+const BuyCard = ({
+	id,
+	count,
+	stock,
+	price,
+	discount,
+	check,
+}: BuyCardProps) => {
 	const { data } = useGetProductByIdQuery(id);
 	const dispatch = useAppDispatch();
 
@@ -27,6 +42,10 @@ const BuyCard = ({ id, count, stock, price, discount }: BuyCardProps) => {
 		}
 	};
 
+	const handleChangecheckBox = () => {
+		dispatch(buyActions.changeChecked(id));
+	};
+
 	return (
 		<div>
 			<Box
@@ -35,6 +54,11 @@ const BuyCard = ({ id, count, stock, price, discount }: BuyCardProps) => {
 				alignItems='center'
 				justifyContent='space-between'
 				mb='20px'>
+				<Checkbox
+					inputProps={{ 'aria-label': 'controlled' }}
+					onChange={handleChangecheckBox}
+					checked={check}
+				/>
 				<CardMedia
 					component='img'
 					image={data?.images}

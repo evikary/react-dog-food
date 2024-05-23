@@ -6,6 +6,7 @@ export interface StateBuyCard {
 	price: number;
 	discount: number;
 	stock: number;
+	checked: boolean;
 }
 
 const initialState: StateBuyCard[] = [];
@@ -37,6 +38,18 @@ export const buySlice = createSlice({
 		},
 		removeBuyCard: (state, action: PayloadAction<string>) => {
 			return state.filter((item) => item.idProduct !== action.payload);
+		},
+		changeChecked: (state, action: PayloadAction<string>) => {
+			state.forEach((item) => {
+				if (item.idProduct === action.payload) {
+					item.checked = item.checked ? false : true;
+				}
+			});
+		},
+		changeAllChecked: (state, action: PayloadAction<boolean>) => {
+			state.forEach((item) => {
+				item.checked = action.payload ? true : false;
+			});
 		},
 		clearBuyCards: () => {
 			return initialState;

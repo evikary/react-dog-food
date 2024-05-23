@@ -20,6 +20,7 @@ function InBasketBtn({ id, price, discount, stock }: InBasketBtnProps) {
 				price: price,
 				discount: discount,
 				stock: stock,
+				checked: false,
 			})
 		);
 	};

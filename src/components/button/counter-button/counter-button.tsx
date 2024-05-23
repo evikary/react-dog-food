@@ -27,6 +27,7 @@ const CounterButton = ({
 				idProduct: idProduct,
 				price: price,
 				discount: discount,
+				checked: false,
 			})
 		);
 	};
