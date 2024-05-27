@@ -2,11 +2,12 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoPhone from '../../icons/ico-phone';
 import IcoMail from '../../icons/ico-mail';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { UserActions, userSelector } from '../../storage/slices/user-slice';
+import { userActions, userSelector } from '../../storage/slices/user-slice';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { authAction } from '../../storage/slices/auth-slice';
 import { withProtection } from '../../HOCs/with-protection';
+import { buyActions } from '../../storage/slices/buy-slice';
 
 const ProfilePage = withProtection(() => {
 	const currentUser = useAppSelector(userSelector.user);
@@ -14,7 +15,8 @@ const ProfilePage = withProtection(() => {
 
 	const logOut = () => {
 		dispatch(authAction.clearToken());
-		dispatch(UserActions.clearUser());
+		dispatch(userActions.clearUser());
+		dispatch(buyActions.clearBuyCards());
 	};
 
 	return (

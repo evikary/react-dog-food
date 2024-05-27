@@ -1,39 +1,20 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { buyActions } from '../../../storage/slices/buy-slice';
+import { StateBuyCard, buyActions } from '../../../storage/slices/buy-slice';
 
 interface CounterButtonProps {
-	count: number;
-	stock: number;
-	idProduct: string;
-	price: number;
-	discount: number;
+	info: StateBuyCard;
 }
 
-const CounterButton = ({
-	count,
-	stock,
-	idProduct,
-	price,
-	discount,
-}: CounterButtonProps) => {
+const CounterButton = ({ info }: CounterButtonProps) => {
 	const dispatch = useAppDispatch();
 
 	const handleIncreaseClick = () => {
-		dispatch(
-			buyActions.addBuyCard({
-				count: count,
-				stock: stock,
-				idProduct: idProduct,
-				price: price,
-				discount: discount,
-				checked: false,
-			})
-		);
+		dispatch(buyActions.addBuyCard(info));
 	};
 
 	const handleDecreseClick = () => {
-		dispatch(buyActions.decreaseCount(idProduct));
+		dispatch(buyActions.decreaseCount(info.idProduct));
 	};
 
 	return (
@@ -50,7 +31,7 @@ const CounterButton = ({
 			<Button
 				variant='text'
 				onClick={handleDecreseClick}
-				disabled={count <= 1}
+				disabled={info.count <= 1}
 				sx={{
 					fontSize: '21px',
 					fontWeight: '700',
@@ -61,12 +42,12 @@ const CounterButton = ({
 				-
 			</Button>
 			<Typography sx={{ fontSize: '21px', fontWeight: '700' }}>
-				{count}
+				{info.count}
 			</Typography>
 			<Button
 				variant='text'
 				onClick={handleIncreaseClick}
-				disabled={count >= stock}
+				disabled={info.count >= info.stock}
 				sx={{
 					fontSize: '21px',
 					fontWeight: '700',

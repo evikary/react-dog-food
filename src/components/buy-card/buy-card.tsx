@@ -9,27 +9,15 @@ import {
 import IcoBin from '../../icons/ico-bin';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { buyActions } from '../../storage/slices/buy-slice';
+import { StateBuyCard, buyActions } from '../../storage/slices/buy-slice';
 import CounterButton from '../button/counter-button/counter-button';
 
 interface BuyCardProps {
-	id: string;
-	count: number;
-	stock: number;
-	price: number;
-	discount: number;
-	check: boolean;
+	info: StateBuyCard;
 }
 
-const BuyCard = ({
-	id,
-	count,
-	stock,
-	price,
-	discount,
-	check,
-}: BuyCardProps) => {
-	const { data } = useGetProductByIdQuery(id);
+const BuyCard = ({ info }: BuyCardProps) => {
+	const { data } = useGetProductByIdQuery(info.idProduct);
 	const dispatch = useAppDispatch();
 
 	const endPrice = (price: number, discount: number) => {
@@ -43,7 +31,7 @@ const BuyCard = ({
 	};
 
 	const handleChangecheckBox = () => {
-		dispatch(buyActions.changeChecked(id));
+		dispatch(buyActions.changeChecked(info.idProduct));
 	};
 
 	return (
@@ -57,7 +45,7 @@ const BuyCard = ({
 				<Checkbox
 					inputProps={{ 'aria-label': 'controlled' }}
 					onChange={handleChangecheckBox}
-					checked={check}
+					checked={info.checked}
 				/>
 				<CardMedia
 					component='img'
@@ -81,13 +69,7 @@ const BuyCard = ({
 						{data?.wight}
 					</Typography>
 				</Box>
-				<CounterButton
-					count={count}
-					stock={stock}
-					idProduct={id}
-					price={price}
-					discount={discount}
-				/>
+				<CounterButton info={info} />
 				{data?.discount ? (
 					<Box>
 						<Typography

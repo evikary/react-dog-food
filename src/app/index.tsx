@@ -15,7 +15,7 @@ import SignInPage from '../pages/sign-in-page/sign-in-page';
 import { useGetUserQuery } from '../storage/api/productsApi';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useEffect } from 'react';
-import { UserActions } from '../storage/slices/user-slice';
+import { userActions } from '../storage/slices/user-slice';
 import BasketPage from '../pages/basket-page/basket-page';
 
 export const App = () => {
@@ -23,7 +23,7 @@ export const App = () => {
 	const { data } = useGetUserQuery();
 
 	useEffect(() => {
-		dispatch(UserActions.setUser(data));
+		dispatch(userActions.setUser(data));
 	}, [data]);
 
 	return (

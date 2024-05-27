@@ -11,7 +11,7 @@ import { StateBuyCard, buyActions } from '../../storage/slices/buy-slice';
 import EmptyList from '../empty-list/empty-list';
 import PlaceOnOrder from '../../pages/basket-page/place-on-order/place-on-order';
 import { countProducts } from '../../utils/products';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 interface BuyCardList {
@@ -26,21 +26,19 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 		handleChangePrimaryBox();
 	}, [cards]);
 
-	if (!cards.length) {
-		return <EmptyList />;
-	}
+	const allSum = useCallback(() => {
+		return cards.reduce(
+			(acc, item) => (item.checked ? acc + item.price * item.count : acc),
+			0
+		);
+	}, [cards]);
 
-	const allSum = () => {
-		return cards.reduce((acc, item) => acc + item.price * item.count, 0);
-	};
-
-	const allDiscount = () => {
-		return cards.reduce((acc, item) => acc + item.discount * item.count, 0);
-	};
-
-	const endSum = () => {
-		return allSum() - allDiscount();
-	};
+	const allDiscount = useCallback(() => {
+		return cards.reduce(
+			(acc, item) => (item.checked ? acc + item.discount * item.count : acc),
+			0
+		);
+	}, [cards]);
 
 	const productsCount = countProducts(cards);
 
@@ -51,6 +49,10 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 	const handleAllCheckBox = () => {
 		dispatch(buyActions.changeAllChecked(!check));
 	};
+
+	if (!cards.length) {
+		return <EmptyList />;
+	}
 
 	return (
 		<>
@@ -68,17 +70,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					</Typography>
 				</Box>
 				{cards.map((item) => {
-					return (
-						<BuyCard
-							key={item.idProduct}
-							id={item.idProduct}
-							count={item.count}
-							stock={item.stock}
-							price={item.price}
-							discount={item.discount}
-							check={item.checked}
-						/>
-					);
+					return <BuyCard key={item.idProduct} info={{ ...item }} />;
 				})}
 			</Stack>
 			<Paper
@@ -143,7 +135,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					<Typography
 						component='p'
 						sx={{ fontSize: '20px', fontWeight: '800' }}>
-						{endSum()} ₽
+						{allSum() - allDiscount()} ₽
 					</Typography>
 				</Box>
 				<PlaceOnOrder />

@@ -14,7 +14,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSignInMutation } from '../../../storage/api/authApi';
 import { toast } from 'react-toastify';
 import { getMessageFromError } from '../../../utils/error-utils';
-import { UserActions } from '../../../storage/slices/user-slice';
+import { userActions } from '../../../storage/slices/user-slice';
 import { authAction } from '../../../storage/slices/auth-slice';
 import { SignInFormValues } from './helpers/types';
 import { signInFormSchema } from './helpers/validator';
@@ -31,7 +31,7 @@ function SignInForm() {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(UserActions.setUser(data));
+			dispatch(userActions.setUser(data));
 			toast.success('Вы зашли в систему!');
 			navigate(location.state?.from || '/products');
 		}

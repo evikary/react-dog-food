@@ -1,5 +1,3 @@
-import { SignUpFormValues } from '../components/forms/sign-up-form/helpers/types';
-
 export type AllProducts = {
 	products: ProductType[];
 	length: number;
@@ -116,48 +114,11 @@ export interface FormFeedback {
 	rating: number;
 }
 
-export type UserUpdateDto = Partial<
-	Omit<UserType, 'favoritesPost' | 'id'> & { password: string }
->;
-
-export type DataSetUser = {
-	token: string;
-	user: UserUpdateDto;
-};
-
 export type DataCreateFeedback = {
 	token: string;
 	id: string;
 	rating: number;
 	text: string;
-};
-
-export type AuthUserRegister = Pick<UserType, 'id' | 'email'> & {
-	accessToken: string;
-};
-
-export type GetUser = (token: string) => Promise<UserType>;
-export type SetUser = (data: DataSetUser) => Promise<UserType>;
-export type GetProducts = (search?: SearchParam) => Promise<ProductType[]>;
-export type GetProduct = (id: string) => Promise<ProductType>;
-export type Changelike = (
-	id: string,
-	token: string,
-	like: boolean | undefined
-) => Promise<LikeChangeType>;
-
-export type CreateFeedback = (data: DataCreateFeedback) => Promise<ReviewsType>;
-export type RegisterAccessUser = (
-	data: SignUpFormValues
-) => Promise<AuthUserRegister>;
-
-export type UnitApi = {
-	getUser: GetUser;
-	setUser: SetUser;
-	getProducts: GetProducts;
-	getProduct: GetProduct;
-	changelike: Changelike;
-	createFeedback: CreateFeedback;
 };
 
 export type SearchParam = {

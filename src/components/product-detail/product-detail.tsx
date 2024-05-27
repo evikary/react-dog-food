@@ -39,6 +39,15 @@ const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 
 	const countProduct = buyCards.find((item) => item.idProduct === product.id);
 
+	const info = {
+		count: countProduct?.count || 1,
+		stock: product.stock,
+		idProduct: product.id,
+		price: product.price,
+		discount: product.discount,
+		checked: countProduct?.checked || true,
+	};
+
 	return (
 		<>
 			<Box sx={{ mb: '20px' }}>
@@ -72,13 +81,7 @@ const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 						{product.price}
 					</Typography>
 					<Box display='flex' gap='16px' sx={{ mt: '24px' }}>
-						<CounterButton
-							count={countProduct?.count || 1}
-							stock={product.stock}
-							idProduct={product.id}
-							price={product.price}
-							discount={product.discount}
-						/>
+						<CounterButton info={info} />
 						<InBasketBtn
 							id={product.id}
 							price={product.price}
