@@ -4,8 +4,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import IcoLeft from '../../icons/ico-left';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { getMessageFromError } from '../../utils/error-utils';
+import { withProtection } from '../../HOCs/with-protection';
 
-function SingleProductPage() {
+const SingleProductPage = withProtection(() => {
 	const { idProduct } = useParams();
 	const { data, refetch, isError, error, isLoading } = useGetProductByIdQuery(
 		idProduct!,
@@ -48,6 +49,6 @@ function SingleProductPage() {
 			</Container>
 		</>
 	);
-}
+});
 
 export default SingleProductPage;

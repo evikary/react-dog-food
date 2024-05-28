@@ -4,8 +4,9 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { buySelector } from '../../storage/slices/buy-slice';
 import BuyCardList from '../../components/buy-card-list/buy-card-list';
 import { countProducts, words } from '../../utils/products';
+import { withProtection } from '../../HOCs/with-protection';
 
-const BasketPage = () => {
+const BasketPage = withProtection(() => {
 	const buyCards = useAppSelector(buySelector.cards);
 	const count = countProducts(buyCards);
 
@@ -29,6 +30,6 @@ const BasketPage = () => {
 			</Box>
 		</Container>
 	);
-};
+});
 
 export default BasketPage;

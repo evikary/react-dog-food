@@ -3,8 +3,9 @@ import ButtonBack from '../../components/button/back-button';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import ReviewForm from '../../components/forms/review-form/review-form';
 import { useParams } from 'react-router-dom';
+import { withProtection } from '../../HOCs/with-protection';
 
-function ReviewsPage() {
+const ReviewsPage = withProtection(() => {
 	const { idProduct } = useParams();
 
 	const { data } = useGetProductByIdQuery(idProduct!, {
@@ -25,6 +26,6 @@ function ReviewsPage() {
 			</Box>
 		</Container>
 	);
-}
+});
 
 export default ReviewsPage;

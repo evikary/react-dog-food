@@ -1,8 +1,9 @@
 import { Container, Typography } from '@mui/material';
 import ButtonBack from '../../components/button/back-button';
 import UpdatedUserForm from '../../components/forms/updated-user-form/updated-user-form';
+import { withProtection } from '../../HOCs/with-protection';
 
-function MyDataPage() {
+const MyDataPage = withProtection(() => {
 	return (
 		<Container
 			component='main'
@@ -16,6 +17,6 @@ function MyDataPage() {
 			<UpdatedUserForm />
 		</Container>
 	);
-}
+});
 
 export default MyDataPage;
