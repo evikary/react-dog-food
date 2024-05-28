@@ -19,13 +19,11 @@ export function favoritesProducts(
 }
 
 export const getDate = (data: string) => {
-	const date = new Date(data);
-	const options: Intl.DateTimeFormatOptions = {
+	return new Date(data).toLocaleDateString('ru-RU', {
 		day: 'numeric',
 		month: 'long',
 		year: 'numeric',
-	};
-	return date.toLocaleDateString('ru-RU', options);
+	});
 };
 
 export const countProducts = (products: StateBuyCard[]) => {
