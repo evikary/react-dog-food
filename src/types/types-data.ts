@@ -1,3 +1,5 @@
+import { SignUpFormValues } from '../components/forms/sign-up-form/helpers/types';
+
 export type AllProducts = {
 	products: ProductType[];
 	length: number;
@@ -104,8 +106,13 @@ export interface FofmProfile {
 	email: string;
 }
 
+export interface ChangeLikeData {
+	id: string;
+	like: boolean;
+}
+
 export interface FormFeedback {
-	feed: string;
+	text: string;
 	rating: number;
 }
 
@@ -125,6 +132,10 @@ export type DataCreateFeedback = {
 	text: string;
 };
 
+export type AuthUserRegister = Pick<UserType, 'id' | 'email'> & {
+	accessToken: string;
+};
+
 export type GetUser = (token: string) => Promise<UserType>;
 export type SetUser = (data: DataSetUser) => Promise<UserType>;
 export type GetProducts = (search?: SearchParam) => Promise<ProductType[]>;
@@ -136,6 +147,9 @@ export type Changelike = (
 ) => Promise<LikeChangeType>;
 
 export type CreateFeedback = (data: DataCreateFeedback) => Promise<ReviewsType>;
+export type RegisterAccessUser = (
+	data: SignUpFormValues
+) => Promise<AuthUserRegister>;
 
 export type UnitApi = {
 	getUser: GetUser;
@@ -149,3 +163,12 @@ export type UnitApi = {
 export type SearchParam = {
 	searchTerm?: string;
 };
+
+export type Token = {
+	accessToken: string;
+};
+
+export interface Filters {
+	searchTerm: string;
+	page: number;
+}

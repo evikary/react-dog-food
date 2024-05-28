@@ -15,25 +15,24 @@ import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { userSelector } from '../../storage/slices/user-slice';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
 import Feedback from '../feedback/feedback';
 import { Link } from 'react-router-dom';
+import { withQuery } from '../../HOCs/with-query';
+import { useChangelikeMutation } from '../../storage/api/productsApi';
 
 interface ProductDetailProps {
 	product: ProductType;
 }
 
-function ProductDetail({ product }: ProductDetailProps) {
+const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 	const currentUser = useAppSelector(userSelector.user);
 	const like = isLiked(product.likes, currentUser?.id);
-	const dispatch = useAppDispatch();
 
-	function handleLikeProduct() {
-		if (product.likes) {
-			dispatch(fetchChangeLikeProduct(product));
-		}
-	}
+	const [changeLikeReviewFn] = useChangelikeMutation();
+
+	const handleLikeProduct = async () => {
+		await changeLikeReviewFn({ id: product.id, like: like }).unwrap();
+	};
 
 	return (
 		<>
@@ -233,6 +232,6 @@ function ProductDetail({ product }: ProductDetailProps) {
 			</Box>
 		</>
 	);
-}
+});
 
 export default ProductDetail;

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Footer from '../components/footer/footer';
 import Header from '../components/header/header';
 import { Route, Routes } from 'react-router-dom';
@@ -6,23 +5,25 @@ import HomePage from '../pages/home/home-page';
 import '../styles.css';
 import ProfilePage from '../pages/profile/profile-page';
 import CatalogProductsPage from '../pages/catalog-products/catalog-products';
-import { apiToken } from '../utils/constants';
 import FavoritesPage from '../pages/favorites-page/favorite-page';
 import NotFoundPage from '../pages/not-found/not-found';
 import SingleProductPage from '../pages/single-product/single-product';
-import { UserActions } from '../storage/slices/user-slice';
-import { useAppDispatch } from '../hooks/useAppDispatch';
 import MyDataPage from '../pages/my-data/my-data';
-import { ProductsActions } from '../storage/slices/products-slice';
 import ReviewsPage from '../pages/reviews/reviews-page';
+import SignUpPage from '../pages/sign-up-page/sign-up-page';
+import SignInPage from '../pages/sign-in-page/sign-in-page';
+import { useGetUserQuery } from '../storage/api/productsApi';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useEffect } from 'react';
+import { UserActions } from '../storage/slices/user-slice';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
+	const { data } = useGetUserQuery();
 
 	useEffect(() => {
-		dispatch(ProductsActions.fetchProducts());
-		dispatch(UserActions.fetchUser(apiToken));
-	}, []);
+		dispatch(UserActions.setUser(data));
+	}, [data]);
 
 	return (
 		<>
@@ -33,6 +34,8 @@ export const App = () => {
 				<Route path='/products' element={<CatalogProductsPage />} />
 				<Route path='*' element={<NotFoundPage />} />
 				<Route path='/profile' element={<ProfilePage />} />
+				<Route path='/signup' element={<SignUpPage />} />
+				<Route path='/signin' element={<SignInPage />} />
 				<Route path='/profile/my' element={<MyDataPage />} />
 				<Route path='/reviews/leave/:idProduct' element={<ReviewsPage />} />
 				<Route path='/products/:idProduct' element={<SingleProductPage />} />

@@ -1,14 +1,14 @@
 import { Box, Container, Typography } from '@mui/material';
 import CardList from '../../components/card-list/card-list';
-import { favoritesProducts } from '../../utils/products';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
-import { productsSelector } from '../../storage/slices/products-slice';
 import ButtonBack from '../../components/button/back-button';
+import { withProtection } from '../../HOCs/with-protection';
+import { useGetUserQuery } from '../../storage/api/productsApi';
+import { getMessageFromError } from '../../utils/error-utils';
+import { ProductType } from '../../types/types-data';
 
-function FavoritesPage() {
-	const products = useAppSelector(productsSelector.products);
-	const currentUser = useAppSelector(userSelector.user);
+const FavoritesPage = withProtection(() => {
+	const { data, isLoading, refetch, error } = useGetUserQuery();
+	const likeProducts = data?.likes?.map((item) => item.product);
 
 	return (
 		<Container component='main'>
@@ -19,12 +19,19 @@ function FavoritesPage() {
 				Избранное
 			</Typography>
 			<Box sx={{ height: '40px' }} />
-			{currentUser && (
-				<CardList products={favoritesProducts(products, currentUser.id)} />
-			)}
+			<CardList
+				products={(likeProducts as ProductType[]) || []}
+				isLoading={isLoading}
+				isError={false}
+				queryErrorMsg={getMessageFromError(
+					error,
+					'Неизвестная ошибка при получении продуктов'
+				)}
+				refetch={refetch}
+			/>
 			<Box sx={{ height: '40px' }} />
 		</Container>
 	);
-}
+});
 
 export default FavoritesPage;

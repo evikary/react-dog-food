@@ -2,11 +2,20 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoPhone from '../../icons/ico-phone';
 import IcoMail from '../../icons/ico-mail';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
+import { UserActions, userSelector } from '../../storage/slices/user-slice';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { authAction } from '../../storage/slices/auth-slice';
+import { withProtection } from '../../HOCs/with-protection';
 
-function ProfilePage() {
+const ProfilePage = withProtection(() => {
 	const currentUser = useAppSelector(userSelector.user);
+	const dispatch = useAppDispatch();
+
+	const logOut = () => {
+		dispatch(authAction.clearToken());
+		dispatch(UserActions.clearUser());
+	};
 
 	return (
 		<Container component='main'>
@@ -53,6 +62,7 @@ function ProfilePage() {
 					</Button>
 					<Button
 						variant='outlined'
+						onClick={logOut}
 						sx={{
 							width: '75px',
 							height: '32px',
@@ -70,6 +80,6 @@ function ProfilePage() {
 			</Box>
 		</Container>
 	);
-}
+});
 
 export default ProfilePage;
