@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	CardMedia,
+	Divider,
 	Paper,
 	Stack,
 	Typography,
@@ -12,17 +13,27 @@ import IcoTruck from '../../icons/ico-truck';
 import IcoQuality from '../../icons/ico-quality';
 import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
-import { useContext } from 'react';
-import { UserContext } from '../../context/user-context';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
+import Feedback from '../feedback/feedback';
+import { Link } from 'react-router-dom';
 
 interface ProductDetailProps {
-	onProductLike: (productData: ProductType) => void;
 	product: ProductType;
 }
 
-function ProductDetail({ product, onProductLike }: ProductDetailProps) {
-	const currentUser = useContext(UserContext);
+function ProductDetail({ product }: ProductDetailProps) {
+	const currentUser = useAppSelector(userSelector.user);
 	const like = isLiked(product.likes, currentUser?.id);
+	const dispatch = useAppDispatch();
+
+	function handleLikeProduct() {
+		if (product.likes) {
+			dispatch(fetchChangeLikeProduct(product));
+		}
+	}
 
 	return (
 		<>
@@ -106,7 +117,7 @@ function ProductDetail({ product, onProductLike }: ProductDetailProps) {
 							mt: '24px',
 							color: 'rgb(123, 142, 152)',
 						}}
-						onClick={() => onProductLike(product)}>
+						onClick={() => handleLikeProduct()}>
 						<Favorite sx={{ fill: like ? 'red' : '' }} />
 						<Typography component='span'>В избранное</Typography>
 					</Button>
@@ -190,6 +201,35 @@ function ProductDetail({ product, onProductLike }: ProductDetailProps) {
 					sx={{ fontSize: '16px', fontWeight: '400', mb: '20px' }}>
 					{product.description}
 				</Typography>
+			</Box>
+			<Box>
+				<Typography component='h2' variant='h6' sx={{ fontWeight: '800' }}>
+					Отзывы
+				</Typography>
+				<Button
+					component={Link}
+					to={`/reviews/leave/${product.id}`}
+					type='button'
+					variant='outlined'
+					sx={{
+						width: '172px',
+						height: '40px',
+						borderRadius: '87px',
+						color: 'rgb(26, 26, 26)',
+						fontSize: '16px',
+						fontWeight: '700',
+						borderColor: 'rgb(207, 216, 220)',
+						mt: '20px',
+						mb: '20px',
+						textTransform: 'unset',
+					}}>
+					Написать отзыв
+				</Button>
+				<Divider sx={{ mb: '20px' }} />
+				{product.reviews &&
+					product.reviews.map((item) => (
+						<Feedback key={item.id} review={item} />
+					))}
 			</Box>
 		</>
 	);

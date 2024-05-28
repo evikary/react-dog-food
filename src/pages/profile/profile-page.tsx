@@ -1,11 +1,13 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoPhone from '../../icons/ico-phone';
 import IcoMail from '../../icons/ico-mail';
-import { useContext } from 'react';
-import { UserContext } from '../../context/user-context';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
+import { Link } from 'react-router-dom';
 
 function ProfilePage() {
-	const currentUser = useContext(UserContext);
+	const currentUser = useAppSelector(userSelector.user);
+
 	return (
 		<Container component='main'>
 			<Box sx={{ width: '617px', pt: '20px', margin: 'auto' }}>
@@ -33,6 +35,8 @@ function ProfilePage() {
 						</Typography>
 					</Box>
 					<Button
+						component={Link}
+						to={'/profile/my'}
 						variant='outlined'
 						sx={{
 							width: '97px',

@@ -4,13 +4,11 @@ import { ProductType } from '../../types/types-data';
 import InBasketBtn from './in-basket-button/in-basket-button';
 import { Link, useLocation } from 'react-router-dom';
 import { isLiked } from '../../utils/products';
-import { UserContext } from '../../context/user-context';
-import { useContext } from 'react';
-import {
-	ProductsContext,
-	ProductsContextInterface,
-} from '../../context/product-context';
 import IcoBin from '../../icons/ico-bin';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { userSelector } from '../../storage/slices/user-slice';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchChangeLikeProduct } from '../../storage/thunk/favorite-product';
 
 type CardProductProps = {
 	product: ProductType;
@@ -18,18 +16,15 @@ type CardProductProps = {
 
 function CardProduct({ product }: CardProductProps) {
 	const location = useLocation();
-
-	const { onProductLike } = useContext(
-		ProductsContext
-	) as ProductsContextInterface;
+	const currentUser = useAppSelector(userSelector.user);
+	const dispatch = useAppDispatch();
 
 	function handleLikeProduct() {
 		if (product.likes) {
-			onProductLike(product);
+			dispatch(fetchChangeLikeProduct(product));
 		}
 	}
 
-	const currentUser = useContext(UserContext);
 	const like = isLiked(product.likes, currentUser?.id);
 
 	return (
