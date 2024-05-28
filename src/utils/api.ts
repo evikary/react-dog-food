@@ -122,6 +122,58 @@ export const createFeedback: CreateFeedback = (
 		});
 };
 
+// export const userLogin = (dataForm: SignUpFormValues) => {
+// 	return fetch(`${URL}/auth/login`, {
+// 		method: 'POST',
+// 		headers: { 'Content-Type': 'application/json' },
+// 		body: JSON.stringify(dataForm),
+// 	})
+// 		.then((data) => checkResponse<ReviewsType>(data))
+// 		.then((json) => {
+// 			console.log('userLogin', json);
+// 			return json;
+// 		})
+// 		.catch((err) => {
+// 			return Promise.reject(err);
+// 		});
+// };
+
+// export const userRegister: RegisterAccessUser = (
+// 	dataForm: SignUpFormValues
+// ): Promise<AuthUserRegister> => {
+// 	return fetch(`${URL}/auth/register`, {
+// 		method: 'POST',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 			accept: 'application/json',
+// 		},
+// 		body: JSON.stringify(dataForm),
+// 	})
+// 		.then((data) => checkResponse<AuthUserRegister>(data))
+// 		.then((json) => {
+// 			console.log('userRegister', json);
+// 			return json;
+// 		})
+// 		.catch((err) => {
+// 			return Promise.reject(err);
+// 		});
+// };
+
+// export const refreshToken = () => {
+// 	return fetch(`${URL}/auth/refresh-tokens`, {
+// 		method: 'GET',
+// 		headers: {
+// 			accept: 'application/json',
+// 		},
+// 	})
+// 		.then((data) => checkResponse<ReviewsType>(data))
+// 		.then((json) => {
+// 			console.log('refreshToken', json);
+// 			return json;
+// 		})
+// 		.catch((err) => Promise.reject(err));
+// };
+
 export const unitApi: UnitApi = {
 	getUser: getUser,
 	setUser: setUser,

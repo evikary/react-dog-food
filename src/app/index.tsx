@@ -15,6 +15,8 @@ import { useAppDispatch } from '../hooks/useAppDispatch';
 import MyDataPage from '../pages/my-data/my-data';
 import { ProductsActions } from '../storage/slices/products-slice';
 import ReviewsPage from '../pages/reviews/reviews-page';
+import SignUpPage from '../pages/sign-up-page/sign-up-page';
+import SignInPage from '../pages/sign-in-page/sign-in-page';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -33,6 +35,8 @@ export const App = () => {
 				<Route path='/products' element={<CatalogProductsPage />} />
 				<Route path='*' element={<NotFoundPage />} />
 				<Route path='/profile' element={<ProfilePage />} />
+				<Route path='/signup' element={<SignUpPage />} />
+				<Route path='/signin' element={<SignInPage />} />
 				<Route path='/profile/my' element={<MyDataPage />} />
 				<Route path='/reviews/leave/:idProduct' element={<ReviewsPage />} />
 				<Route path='/products/:idProduct' element={<SingleProductPage />} />
