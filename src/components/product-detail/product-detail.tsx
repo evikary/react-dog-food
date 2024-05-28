@@ -14,11 +14,13 @@ import IcoQuality from '../../icons/ico-quality';
 import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
 import Feedback from '../feedback/feedback';
 import { Link } from 'react-router-dom';
 import { withQuery } from '../../HOCs/with-query';
-import { useChangelikeMutation } from '../../storage/api/productsApi';
+import {
+	useChangelikeMutation,
+	useGetUserQuery,
+} from '../../storage/api/productsApi';
 import CounterButton from '../button/counter-button/counter-button';
 import { buySelector } from '../../storage/slices/buy-slice';
 
@@ -27,9 +29,9 @@ interface ProductDetailProps {
 }
 
 const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
-	const currentUser = useAppSelector(userSelector.user);
+	const { data } = useGetUserQuery();
 	const buyCards = useAppSelector(buySelector.cards);
-	const like = isLiked(product.likes, currentUser?.id);
+	const like = isLiked(data?.likes, product.id);
 
 	const [changeLikeReviewFn] = useChangelikeMutation();
 
