@@ -10,6 +10,7 @@ import { userSelector } from '../../storage/slices/user-slice';
 import { useGetUserQuery } from '../../storage/api/productsApi';
 import { buySelector } from '../../storage/slices/buy-slice';
 import { countProducts } from '../../utils/products';
+import { path } from '../../app/routes';
 
 function Header() {
 	const { data } = useGetUserQuery();
@@ -24,13 +25,13 @@ function Header() {
 				padding: '12px',
 			}}>
 			<Toolbar sx={{ width: '992px', margin: '0 auto' }}>
-				<Link to={'/'}>
+				<Link to={path.home}>
 					<Logo />
 				</Link>
 				<SearchElements />
 				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-					<Link to={'/favorites'}>
+					<Link to={path.favorites}>
 						<IconButton size='large' color='inherit'>
 							<Badge
 								badgeContent={currentUser && data?.likes && data.likes.length}
@@ -39,7 +40,7 @@ function Header() {
 							</Badge>
 						</IconButton>
 					</Link>
-					<Link to={'/basket'}>
+					<Link to={path.basket}>
 						<IconButton size='large' color='inherit'>
 							<Badge
 								badgeContent={currentUser && countProducts(buyData)}
@@ -48,7 +49,7 @@ function Header() {
 							</Badge>
 						</IconButton>
 					</Link>
-					<Link to={'/profile'}>
+					<Link to={path.profile}>
 						<IconButton
 							size='large'
 							edge='end'

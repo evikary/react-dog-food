@@ -20,6 +20,7 @@ import { SignInFormValues } from './helpers/types';
 import { signInFormSchema } from './helpers/validator';
 import { useGetUserQuery } from '../../../storage/api/productsApi';
 import { useEffect, useState } from 'react';
+import { path } from '../../../app/routes';
 
 function SignInForm() {
 	const location = useLocation();
@@ -152,7 +153,7 @@ function SignInForm() {
 				</Box>
 				<Button
 					component={Link}
-					to='/signup'
+					to={path.signup}
 					fullWidth
 					variant='outlined'
 					sx={{

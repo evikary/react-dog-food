@@ -5,6 +5,7 @@ import IcoLeft from '../../icons/ico-left';
 import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { getMessageFromError } from '../../utils/error-utils';
 import { withProtection } from '../../HOCs/with-protection';
+import { path } from '../../app/routes';
 
 const SingleProductPage = withProtection(() => {
 	const { idProduct } = useParams();
@@ -23,7 +24,7 @@ const SingleProductPage = withProtection(() => {
 				<Button
 					variant='text'
 					sx={{ mt: '36px', padding: '6px 0' }}
-					onClick={() => (isBack ? navigate(-1) : navigate('/'))}>
+					onClick={() => (isBack ? navigate(-1) : navigate(path.home))}>
 					<IcoLeft />
 					<Typography
 						component='span'

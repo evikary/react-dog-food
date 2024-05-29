@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { authAction } from '../../storage/slices/auth-slice';
 import { withProtection } from '../../HOCs/with-protection';
 import { buyActions } from '../../storage/slices/buy-slice';
+import { path } from '../../app/routes';
 
 const ProfilePage = withProtection(() => {
 	const currentUser = useAppSelector(userSelector.user);
@@ -47,7 +48,7 @@ const ProfilePage = withProtection(() => {
 					</Box>
 					<Button
 						component={Link}
-						to={'/profile/my'}
+						to={path.myData}
 						variant='outlined'
 						sx={{
 							width: '97px',

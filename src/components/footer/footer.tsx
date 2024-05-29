@@ -7,6 +7,7 @@ import whatsapp from '../../images/logo-whatsapp.png';
 import vk from '../../images/logo-vk.png';
 import s from './footer.module.css';
 import { Link } from 'react-router-dom';
+import { path } from '../../app/routes';
 
 function Footer() {
 	return (
@@ -17,7 +18,7 @@ function Footer() {
 				<Box
 					component='div'
 					sx={{ display: 'flex', flexDirection: 'column', rowGap: '46px' }}>
-					<Link to={'/'}>
+					<Link to={path.home}>
 						<Logo />
 					</Link>
 					<LinkMiu
@@ -36,7 +37,7 @@ function Footer() {
 					}}>
 					<LinkMiu
 						component={Link}
-						to={'/products'}
+						to={path.products}
 						underline='hover'
 						sx={{
 							fontSize: '12px',

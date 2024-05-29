@@ -9,6 +9,7 @@ import {
 	useChangelikeMutation,
 	useGetUserQuery,
 } from '../../storage/api/productsApi';
+import { path } from '../../app/routes';
 
 type CardProductProps = {
 	product: ProductType;
@@ -38,7 +39,7 @@ function CardProduct({ product }: CardProductProps) {
 			<IconButton
 				sx={{ position: 'absolute', top: 0, right: '10px' }}
 				onClick={() => handleLikeProduct()}>
-				{location.pathname === '/products' ? (
+				{location.pathname === path.products ? (
 					<Favorite
 						sx={{ color: ' rgb(26, 26, 26)', fill: like ? 'red' : '' }}
 					/>
