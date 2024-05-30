@@ -84,12 +84,7 @@ const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 					</Typography>
 					<Box display='flex' gap='16px' sx={{ mt: '24px' }}>
 						<CounterButton info={info} />
-						<InBasketBtn
-							id={product.id}
-							price={product.price}
-							discount={product.discount}
-							stock={product.stock}
-						/>
+						<InBasketBtn id={product.id} />
 					</Box>
 					<Button
 						variant='text'

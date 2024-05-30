@@ -26,7 +26,7 @@ const BasketPage = withProtection(() => {
 				</Typography>
 			</Box>
 			<Box display='flex' columnGap='60px'>
-				<BuyCardList cards={buyCards || []} />
+				<BuyCardList />
 			</Box>
 		</Container>
 	);

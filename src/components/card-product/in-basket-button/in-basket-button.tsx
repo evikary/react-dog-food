@@ -3,18 +3,17 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { buyActions, buySelector } from '../../../storage/slices/buy-slice';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { useState } from 'react';
+import { useGetProductByIdQuery } from '../../../storage/api/productsApi';
 
 interface InBasketBtnProps {
 	id: string;
-	price: number;
-	discount: number;
-	stock: number;
 }
 
-function InBasketBtn({ id, price, discount, stock }: InBasketBtnProps) {
-	const dispatch = useAppDispatch();
+function InBasketBtn({ id }: InBasketBtnProps) {
+	const { data } = useGetProductByIdQuery(id);
 	const buyCards = useAppSelector(buySelector.cards);
 	const [isWarning, setIsWarning] = useState(false);
+	const dispatch = useAppDispatch();
 
 	const handleClick = (prodId: string) => {
 		if (buyCards.length !== 0) {
@@ -25,16 +24,18 @@ function InBasketBtn({ id, price, discount, stock }: InBasketBtnProps) {
 				return;
 			}
 		}
-		dispatch(
-			buyActions.addBuyCard({
-				idProduct: id,
-				count: 1,
-				price: price,
-				discount: discount,
-				stock: stock,
-				checked: true,
-			})
-		);
+		if (data) {
+			dispatch(
+				buyActions.addBuyCard({
+					idProduct: id,
+					count: 1,
+					price: data?.price,
+					discount: data?.discount,
+					stock: data?.stock,
+					checked: true,
+				})
+			);
+		}
 	};
 
 	return (

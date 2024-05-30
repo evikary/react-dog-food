@@ -20,6 +20,22 @@ export const countProducts = (products: StateBuyCard[]) => {
 	return products.reduce((acc, item) => acc + item.count, 0);
 };
 
+export const allSum = (products: StateBuyCard[]) =>
+	products.reduce(
+		(acc, item) => (item.checked ? acc + item.price * item.count : acc),
+		0
+	);
+
+export const allDiscount = (products: StateBuyCard[]) =>
+	products.reduce(
+		(acc, item) => (item.checked ? acc + item.discount * item.count : acc),
+		0
+	);
+
+export const endPrice = (price: number, discount: number) => {
+	return price - discount;
+};
+
 /// функция склонения слова для разного количества элементов
 export function words(count: number, words: string[]) {
 	let index = 2;

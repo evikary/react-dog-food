@@ -1,7 +1,6 @@
 import { Favorite } from '@mui/icons-material';
 import { Box, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import { ProductType } from '../../types/types-data';
-import InBasketBtn from './in-basket-button/in-basket-button';
 import { Link, useLocation } from 'react-router-dom';
 import { isLiked } from '../../utils/products';
 import IcoBin from '../../icons/ico-bin';
@@ -10,6 +9,7 @@ import {
 	useGetUserQuery,
 } from '../../storage/api/productsApi';
 import { path } from '../../app/routes';
+import InBasketBtn from './in-basket-button/in-basket-button';
 
 type CardProductProps = {
 	product: ProductType;
@@ -82,12 +82,7 @@ function CardProduct({ product }: CardProductProps) {
 					sx={{ fontSize: '16px', fontWeight: '600' }}>
 					{product.name}
 				</Typography>
-				<InBasketBtn
-					id={product.id}
-					price={product.price}
-					discount={product.discount}
-					stock={product.stock}
-				/>
+				<InBasketBtn id={product.id} />
 			</Box>
 		</Grid>
 	);

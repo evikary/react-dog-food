@@ -11,6 +11,7 @@ import { useGetProductByIdQuery } from '../../storage/api/productsApi';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { StateBuyCard, buyActions } from '../../storage/slices/buy-slice';
 import CounterButton from '../button/counter-button/counter-button';
+import { endPrice } from '../../utils/products';
 
 interface BuyCardProps {
 	info: StateBuyCard;
@@ -19,10 +20,6 @@ interface BuyCardProps {
 const BuyCard = ({ info }: BuyCardProps) => {
 	const { data } = useGetProductByIdQuery(info.idProduct);
 	const dispatch = useAppDispatch();
-
-	const endPrice = (price: number, discount: number) => {
-		return price - discount;
-	};
 
 	const handleDeleteProduct = (id: string | undefined) => {
 		if (id) {

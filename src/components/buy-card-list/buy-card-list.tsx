@@ -7,44 +7,24 @@ import {
 	Typography,
 } from '@mui/material';
 import BuyCard from '../buy-card/buy-card';
-import { StateBuyCard, buyActions } from '../../storage/slices/buy-slice';
+import { buyActions, buySelector } from '../../storage/slices/buy-slice';
 import EmptyList from '../empty-list/empty-list';
 import PlaceOnOrder from '../../pages/basket-page/place-on-order/place-on-order';
-import { countProducts } from '../../utils/products';
-import { useCallback, useEffect, useState } from 'react';
+import { allDiscount, allSum, countProducts } from '../../utils/products';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-interface BuyCardList {
-	cards: StateBuyCard[];
-}
-
-const BuyCardList = ({ cards }: BuyCardList) => {
+const BuyCardList = () => {
+	const cards = useAppSelector(buySelector.cards);
 	const [check, setCheck] = useState(false);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		handleChangePrimaryBox();
-	}, [cards]);
-
-	const allSum = useCallback(() => {
-		return cards.reduce(
-			(acc, item) => (item.checked ? acc + item.price * item.count : acc),
-			0
-		);
-	}, [cards]);
-
-	const allDiscount = useCallback(() => {
-		return cards.reduce(
-			(acc, item) => (item.checked ? acc + item.discount * item.count : acc),
-			0
-		);
+		setCheck(cards.every((item) => item.checked === true));
 	}, [cards]);
 
 	const productsCount = countProducts(cards);
-
-	function handleChangePrimaryBox() {
-		setCheck(cards.every((item) => item.checked === true));
-	}
 
 	const handleAllCheckBox = () => {
 		dispatch(buyActions.changeAllChecked(!check));
@@ -101,7 +81,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					<Typography
 						component='p'
 						sx={{ fontSize: '14px', fontWeight: '600' }}>
-						{allSum()} ₽
+						{allSum(cards)} ₽
 					</Typography>
 				</Box>
 				<Box
@@ -117,7 +97,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					<Typography
 						component='p'
 						sx={{ fontSize: '14px', fontWeight: '600' }}>
-						- {allDiscount()} ₽
+						- {allDiscount(cards)} ₽
 					</Typography>
 				</Box>
 				<Divider />
@@ -135,7 +115,7 @@ const BuyCardList = ({ cards }: BuyCardList) => {
 					<Typography
 						component='p'
 						sx={{ fontSize: '20px', fontWeight: '800' }}>
-						{allSum() - allDiscount()} ₽
+						{allSum(cards) - allDiscount(cards)} ₽
 					</Typography>
 				</Box>
 				<PlaceOnOrder />
