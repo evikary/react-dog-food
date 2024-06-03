@@ -11,18 +11,14 @@ import { buyActions, buySelector } from '../../storage/slices/buy-slice';
 import EmptyList from '../empty-list/empty-list';
 import PlaceOnOrder from '../../pages/basket-page/place-on-order/place-on-order';
 import { allDiscount, allSum, countProducts } from '../../utils/products';
-import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 const BuyCardList = () => {
 	const cards = useAppSelector(buySelector.cards);
-	const [check, setCheck] = useState(false);
 	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		setCheck(cards.every((item) => item.checked === true));
-	}, [cards]);
+	const check = cards.every((item) => item.checked === true);
 
 	const productsCount = countProducts(cards);
 

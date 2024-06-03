@@ -30,11 +30,10 @@ export const buySlice = createSlice({
 			}
 		},
 		decreaseCount: (state, action: PayloadAction<string>) => {
-			state.forEach((item) => {
-				if (item.idProduct === action.payload) {
-					item.count = item.count - 1;
-				}
-			});
+			const element = state.find((item) => item.idProduct === action.payload);
+			if (element) {
+				element.count = element.count - 1;
+			}
 		},
 		removeBuyCard: (state, action: PayloadAction<string>) => {
 			return state.filter((item) => item.idProduct !== action.payload);
@@ -42,13 +41,13 @@ export const buySlice = createSlice({
 		changeChecked: (state, action: PayloadAction<string>) => {
 			state.forEach((item) => {
 				if (item.idProduct === action.payload) {
-					item.checked = item.checked ? false : true;
+					item.checked = !item.checked;
 				}
 			});
 		},
 		changeAllChecked: (state, action: PayloadAction<boolean>) => {
 			state.forEach((item) => {
-				item.checked = action.payload ? true : false;
+				item.checked = action.payload;
 			});
 		},
 		clearBuyCards: () => {

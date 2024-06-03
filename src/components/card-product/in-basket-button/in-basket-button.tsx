@@ -1,9 +1,14 @@
 import { Button, Typography } from '@mui/material';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { buyActions, buySelector } from '../../../storage/slices/buy-slice';
+import {
+	StateBuyCard,
+	buyActions,
+	buySelector,
+} from '../../../storage/slices/buy-slice';
 import { useAppSelector } from '../../../hooks/useAppSelector';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetProductByIdQuery } from '../../../storage/api/productsApi';
+import { isFinishProduct } from '../../../utils/products';
 
 interface InBasketBtnProps {
 	id: string;
@@ -15,15 +20,16 @@ function InBasketBtn({ id }: InBasketBtnProps) {
 	const [isWarning, setIsWarning] = useState(false);
 	const dispatch = useAppDispatch();
 
-	const handleClick = (prodId: string) => {
-		if (buyCards.length !== 0) {
-			const buyCard = buyCards.find((item) => item.idProduct === prodId);
+	useEffect(() => {
+		setIsWarning(() => isFinishProduct(buyCards, id));
+	}, [buyCards]);
 
-			if (buyCard && buyCard.count >= buyCard.stock) {
-				setIsWarning(true);
-				return;
-			}
+	const handleClick = (buyProducts: StateBuyCard[], prodId: string) => {
+		if (isFinishProduct(buyProducts, prodId)) {
+			setIsWarning(true);
+			return;
 		}
+
 		if (data) {
 			dispatch(
 				buyActions.addBuyCard({
@@ -54,7 +60,7 @@ function InBasketBtn({ id }: InBasketBtnProps) {
 			) : (
 				<Button
 					variant='contained'
-					onClick={() => handleClick(id)}
+					onClick={() => handleClick(buyCards || [], id)}
 					sx={{
 						borderRadius: '55px',
 						background: 'rgb(255, 228, 77)',

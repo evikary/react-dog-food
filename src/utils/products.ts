@@ -36,6 +36,16 @@ export const endPrice = (price: number, discount: number) => {
 	return price - discount;
 };
 
+export const isFinishProduct = (products: StateBuyCard[], idProd: string) => {
+	if (products.length !== 0) {
+		const buyCard = products.find((item) => item.idProduct === idProd);
+		if (buyCard) {
+			return buyCard.count >= buyCard.stock;
+		}
+	}
+	return false;
+};
+
 /// функция склонения слова для разного количества элементов
 export function words(count: number, words: string[]) {
 	let index = 2;

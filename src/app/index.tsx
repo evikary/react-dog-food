@@ -23,17 +23,6 @@ export const App = () => {
 				{routes.map((item) => (
 					<Route key={item.path} {...item} />
 				))}
-				{/* <Route path='/' element={<HomePage />} />
-				<Route path='/favorites' element={<FavoritesPage />} />
-				<Route path='/products' element={<CatalogProductsPage />} />
-				<Route path='*' element={<NotFoundPage />} />
-				<Route path='/profile' element={<ProfilePage />} />
-				<Route path='/signup' element={<SignUpPage />} />
-				<Route path='/basket' element={<BasketPage />} />
-				<Route path='/signin' element={<SignInPage />} />
-				<Route path='/profile/my' element={<MyDataPage />} />
-				<Route path='/reviews/leave/:idProduct' element={<ReviewsPage />} />
-				<Route path='/products/:idProduct' element={<SingleProductPage />} /> */}
 			</Routes>
 			<Footer />
 		</>
