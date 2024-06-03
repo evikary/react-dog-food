@@ -8,7 +8,8 @@ import { ProductType } from '../../types/types-data';
 
 const FavoritesPage = withProtection(() => {
 	const { data, isLoading, refetch, error } = useGetUserQuery();
-	const likeProducts = data?.likes?.map((item) => item.product);
+	const likeProducts =
+		(data?.likes?.map((item) => item.product) as ProductType[]) || [];
 
 	return (
 		<Container component='main'>
@@ -20,7 +21,7 @@ const FavoritesPage = withProtection(() => {
 			</Typography>
 			<Box sx={{ height: '40px' }} />
 			<CardList
-				products={(likeProducts as ProductType[]) || []}
+				products={likeProducts}
 				isLoading={isLoading}
 				isError={false}
 				queryErrorMsg={getMessageFromError(

@@ -8,9 +8,10 @@ import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignUpMutation } from '../../../storage/api/authApi';
-import { UserActions } from '../../../storage/slices/user-slice';
+import { userActions } from '../../../storage/slices/user-slice';
 import { authAction } from '../../../storage/slices/auth-slice';
 import { getMessageFromError } from '../../../utils/error-utils';
+import { path } from '../../../app/routes';
 
 function SignUpForm() {
 	const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ function SignUpForm() {
 	const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
 		try {
 			const response = await signUpRequestFn(values).unwrap();
-			dispatch(UserActions.setUser(response.user));
+			dispatch(userActions.setUser(response.user));
 			dispatch(
 				authAction.setAccessToken({ accessToken: response.accessToken })
 			);
@@ -133,7 +134,7 @@ function SignUpForm() {
 				</Box>
 				<Button
 					component={Link}
-					to='/signin'
+					to={path.signin}
 					fullWidth
 					variant='outlined'
 					sx={{

@@ -1,5 +1,6 @@
 import { Box, Button, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { path } from '../../app/routes';
 
 function NotFoundPage() {
 	return (
@@ -25,7 +26,7 @@ function NotFoundPage() {
 				<Button
 					variant='outlined'
 					component={Link}
-					to='/'
+					to={path.home}
 					sx={{
 						color: 'rgb(26, 26, 26)',
 						borderRadius: '50px',

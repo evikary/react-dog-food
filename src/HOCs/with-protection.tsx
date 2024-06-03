@@ -2,6 +2,7 @@ import { ComponentType, FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { authSelector } from '../storage/slices/auth-slice';
+import { path } from '../app/routes';
 
 export const withProtection = <P extends object>(
 	WrappedComponent: ComponentType<P>
@@ -16,7 +17,7 @@ export const withProtection = <P extends object>(
 		if (!accessToken) {
 			return (
 				<Navigate
-					to='/signin'
+					to={path.signin}
 					// при этом мы передаем состояние, в котором указываем, какую
 					// страницу хотел посетить пользователь. И если он в дальнейшем
 					// войдет в систему, то мы его автоматически перебросим на желаемую страницу

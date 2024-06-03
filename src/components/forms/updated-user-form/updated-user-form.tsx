@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormControl, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../hooks/useAppSelector';
-import { UserActions, userSelector } from '../../../storage/slices/user-slice';
+import { userActions, userSelector } from '../../../storage/slices/user-slice';
 import { FofmProfile } from '../../../types/types-data';
 import { updatedUserFormSchema } from './validator';
 import { LoadingButton } from '@mui/lab';
@@ -35,7 +35,7 @@ const UpdatedUserForm = () => {
 	const submitHandler: SubmitHandler<FofmProfile> = async (values) => {
 		try {
 			const response = await updatedUserRequestFn(values).unwrap();
-			dispatch(UserActions.setUser(response));
+			dispatch(userActions.setUser(response));
 			toast.success('Данные о пользователе изменены!');
 			navigate(-1);
 		} catch (error) {

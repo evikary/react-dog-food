@@ -54,7 +54,7 @@
 	},
 	"scripts": {
 		"build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js --env env=prod",
-		"start": "cross-env API_URL=https://api.v2.react-learning.ru webpack serve --config webpack/webpack.config.js --env env=dev",
+		"start": "webpack serve --config webpack/webpack.config.js --env env=dev",
 		"stylelint": "stylelint \"src/**/*.css\"",
 		"stylelint:fix": "stylelint \"src/**/*.css\" --fix",
 		"lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",

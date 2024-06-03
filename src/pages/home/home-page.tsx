@@ -2,6 +2,7 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import IcoRight from '../../icons/ico-right';
 import DogImage from './dog-image/dog-image';
 import { Link } from 'react-router-dom';
+import { path } from '../../app/routes';
 
 function HomePage() {
 	return (
@@ -29,7 +30,7 @@ function HomePage() {
 						Всегда свежие лакомства ручной
 						<br /> работы с доставкой по России и<br /> Миру
 					</Typography>
-					<Link to='/products' style={{ textDecoration: 'none' }}>
+					<Link to={path.products} style={{ textDecoration: 'none' }}>
 						<Button
 							variant='contained'
 							sx={{

@@ -9,7 +9,7 @@ function EmptyList() {
 				justifyContent='center'
 				height='100%'>
 				<Typography component='h2' variant='h3' color='red' align='center'>
-					Ooops! Card list is empty.
+					Список товаров пуст!
 				</Typography>
 			</Box>
 		</Container>

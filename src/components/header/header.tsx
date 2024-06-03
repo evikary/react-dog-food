@@ -6,12 +6,14 @@ import icoDog from '../../images/dog.png';
 import icoBuy from '../../images/buy.png';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
 import { useGetUserQuery } from '../../storage/api/productsApi';
+import { buySelector } from '../../storage/slices/buy-slice';
+import { countProducts } from '../../utils/products';
+import { path } from '../../app/routes';
 
 function Header() {
 	const { data } = useGetUserQuery();
-	const currentUser = useAppSelector(userSelector.user);
+	const buyData = useAppSelector(buySelector.cards);
 
 	return (
 		<AppBar
@@ -21,25 +23,29 @@ function Header() {
 				padding: '12px',
 			}}>
 			<Toolbar sx={{ width: '992px', margin: '0 auto' }}>
-				<Link to={'/'}>
+				<Link to={path.home}>
 					<Logo />
 				</Link>
 				<SearchElements />
 				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-					<Link to={'/favorites'}>
+					<Link to={path.favorites}>
 						<IconButton size='large' color='inherit'>
 							<Badge
-								badgeContent={currentUser && data?.likes && data.likes.length}
+								badgeContent={data?.likes && data.likes.length}
 								color='success'>
 								<Favorite sx={{ color: 'rgb(26, 26, 26)' }} />
 							</Badge>
 						</IconButton>
 					</Link>
-					<IconButton size='large' color='inherit'>
-						<img src={icoBuy} alt='icoBuy' />
-					</IconButton>
-					<Link to={'/profile'}>
+					<Link to={path.basket}>
+						<IconButton size='large' color='inherit'>
+							<Badge badgeContent={countProducts(buyData)} color='success'>
+								<img src={icoBuy} alt='icoBuy' />
+							</Badge>
+						</IconButton>
+					</Link>
+					<Link to={path.profile}>
 						<IconButton
 							size='large'
 							edge='end'

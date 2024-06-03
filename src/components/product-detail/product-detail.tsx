@@ -14,24 +14,40 @@ import IcoQuality from '../../icons/ico-quality';
 import { ProductType } from '../../types/types-data';
 import { isLiked } from '../../utils/products';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { userSelector } from '../../storage/slices/user-slice';
 import Feedback from '../feedback/feedback';
 import { Link } from 'react-router-dom';
 import { withQuery } from '../../HOCs/with-query';
-import { useChangelikeMutation } from '../../storage/api/productsApi';
+import {
+	useChangelikeMutation,
+	useGetUserQuery,
+} from '../../storage/api/productsApi';
+import CounterButton from '../button/counter-button/counter-button';
+import { buySelector } from '../../storage/slices/buy-slice';
 
 interface ProductDetailProps {
 	product: ProductType;
 }
 
 const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
-	const currentUser = useAppSelector(userSelector.user);
-	const like = isLiked(product.likes, currentUser?.id);
+	const { data } = useGetUserQuery();
+	const buyCards = useAppSelector(buySelector.cards);
+	const like = isLiked(data?.likes, product.id);
 
 	const [changeLikeReviewFn] = useChangelikeMutation();
 
 	const handleLikeProduct = async () => {
 		await changeLikeReviewFn({ id: product.id, like: like }).unwrap();
+	};
+
+	const countProduct = buyCards.find((item) => item.idProduct === product.id);
+
+	const info = {
+		count: countProduct?.count || 1,
+		stock: product.stock,
+		idProduct: product.id,
+		price: product.price,
+		discount: product.discount,
+		checked: countProduct?.checked || true,
 	};
 
 	return (
@@ -67,44 +83,8 @@ const ProductDetail = withQuery(({ product }: ProductDetailProps) => {
 						{product.price}
 					</Typography>
 					<Box display='flex' gap='16px' sx={{ mt: '24px' }}>
-						<Box
-							display='flex'
-							width='109px'
-							height='48px'
-							alignItems='center'
-							justifyContent='space-around'
-							sx={{
-								border: '1px solid rgb(207, 216, 220)',
-								borderRadius: '100px',
-							}}>
-							<Button
-								variant='text'
-								disabled
-								sx={{
-									fontSize: '21px',
-									fontWeight: '700',
-									color: 'rgb(26, 26, 26)',
-									padding: '0',
-									minWidth: '24px',
-								}}>
-								-
-							</Button>
-							<Typography sx={{ fontSize: '21px', fontWeight: '700' }}>
-								0
-							</Typography>
-							<Button
-								variant='text'
-								sx={{
-									fontSize: '21px',
-									fontWeight: '700',
-									color: 'rgb(26, 26, 26)',
-									padding: '0',
-									minWidth: '24px',
-								}}>
-								+
-							</Button>
-						</Box>
-						<InBasketBtn />
+						<CounterButton info={info} />
+						<InBasketBtn id={product.id} />
 					</Box>
 					<Button
 						variant='text'

@@ -14,12 +14,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSignInMutation } from '../../../storage/api/authApi';
 import { toast } from 'react-toastify';
 import { getMessageFromError } from '../../../utils/error-utils';
-import { UserActions } from '../../../storage/slices/user-slice';
+import { userActions } from '../../../storage/slices/user-slice';
 import { authAction } from '../../../storage/slices/auth-slice';
 import { SignInFormValues } from './helpers/types';
 import { signInFormSchema } from './helpers/validator';
 import { useGetUserQuery } from '../../../storage/api/productsApi';
 import { useEffect, useState } from 'react';
+import { path } from '../../../app/routes';
 
 function SignInForm() {
 	const location = useLocation();
@@ -31,7 +32,7 @@ function SignInForm() {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(UserActions.setUser(data));
+			dispatch(userActions.setUser(data));
 			toast.success('Вы зашли в систему!');
 			navigate(location.state?.from || '/products');
 		}
@@ -152,7 +153,7 @@ function SignInForm() {
 				</Box>
 				<Button
 					component={Link}
-					to='/signup'
+					to={path.signup}
 					fullWidth
 					variant='outlined'
 					sx={{

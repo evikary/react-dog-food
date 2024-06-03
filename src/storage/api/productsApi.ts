@@ -84,7 +84,6 @@ export const productsApi = createApi({
 		}),
 		getUser: builder.query<UserType, void>({
 			queryFn: async (_arg, _api, _extraOptions, baseQuery) => {
-				console.log('queryFn');
 				await sleep(1000);
 				const response = await baseQuery({
 					url: '/users/me',

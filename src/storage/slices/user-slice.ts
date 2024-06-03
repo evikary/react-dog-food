@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RequestStatus } from '../types/type-store';
 import { UserType } from '../../types/types-data';
 
 interface StateUser {
 	info: UserType | null;
-	status: RequestStatus;
 }
 
 const initialState: StateUser = {
@@ -24,7 +22,6 @@ const initialState: StateUser = {
 		likes: [],
 		favoritesPost: [],
 	},
-	status: RequestStatus.Idle,
 };
 
 export const userSlice = createSlice({
@@ -40,9 +37,8 @@ export const userSlice = createSlice({
 	},
 	selectors: {
 		user: (state: StateUser) => state.info,
-		userRequestStatus: (state: StateUser) => state.status,
 	},
 });
 
 export const userSelector = userSlice.selectors;
-export const UserActions = userSlice.actions;
+export const userActions = userSlice.actions;
